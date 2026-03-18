@@ -22,7 +22,7 @@ El alcance es corto e intencionalmente acotado para que pueda completarse en poc
 ## 2. Diagrama del sistema
 
 La arquitectura sigue el patrón **cliente–servidor de tres capas**. El diagrama muestra las capas del sistema y los módulos que componen cada una.
-<img src="./watchlist_system_diagram.svg">
+<img src="./docs//watchlist_system_diagram.svg">
 **Figura 1. Arquitectura general de la Watchlist App**
 
 ---
