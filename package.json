@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "**Lista de Películas y Series Favoritas**  \r **Desarrollo Web con Node.js**",
   "main": "app.js",
+  "type": "module",
   "directories": {
     "doc": "docs"
   },
