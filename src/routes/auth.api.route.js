@@ -6,6 +6,8 @@
  */
 import { request, response, Router } from 'express';
 
+import { registro } from "../controllers/auth.controller.js";
+
 // Inicializamos el enrutador
 const router = Router();
 
@@ -16,13 +18,7 @@ const router = Router();
  * * @param {request} req - Contiene los datos que envía el usuario (en req.body).
  * @param {response} res - Objeto para enviar la respuesta al cliente.
  */
-router.post('/registro', (req = request, res = response) => {
-    // Aquí iría la lógica para guardar en la base de datos.
-    // Por ahora, devolvemos un JSON de éxito y un código 201 (Created).
-    res.status(201).json({
-        mensaje: 'Usuario creado exitosamente.'
-    });
-});
+router.post('/registro', registro);
 
 /**
  * 3. RUTA DE INGRESO / LOGIN (POST)

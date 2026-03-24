@@ -39,3 +39,7 @@ class JsonDB {
         }
     }
 }
+
+const jsonDb = new JsonDB();
+
+export default jsonDb;
