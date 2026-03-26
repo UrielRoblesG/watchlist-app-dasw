@@ -4,7 +4,6 @@
 
 Construye una arrow function llamada crearWatchlistItem que reciba un objeto como parametro
 y desestructure las siguientes propiedades:
-
 - userId
 - titulo
 - tipo
@@ -31,7 +30,7 @@ La clase debe tener una propiedad privada _COLECCION cuyo valor sea la cadena "w
 
 Implementa los siguientes métodos asíncronos:
 
-- obtenerTodosPorUsuario(userId_)
+- obtenerTodosPorUsuario(userId)
   - Lee la colección con jsonDb.leer(this._COLECCION).
   - Devuelve un array con todos los elementos cuyo userId coincida.
 - buscarPorIdyUsuario(id, userId)
