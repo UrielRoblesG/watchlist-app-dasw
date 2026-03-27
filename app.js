@@ -4,6 +4,8 @@
  */
 import express from "express"; // El framework para construir el servidor web.
 import { router } from "./src/routes/index.api.route.js"; // Importamos nuestro gestor de rutas.
+import { logMiddleware } from "./src/middlewares/log.middleware.js";
+import { validarToken } from "./src/middlewares/auth.middleware.js";
 
 /**
  * 2. INSTANCIACIÓN Y MIDDLEWARES (Configuración)
@@ -15,7 +17,13 @@ const app = express();
  * Permite que Express entienda el cuerpo (body) de las peticiones que vienen como JSON.
  * Sin esto, req.body sería 'undefined'.
  */
+app.use(express.static('public'));
+
+
 app.use(express.json());
+
+// Middleware para logg
+app.use(logMiddleware);
 
 /**
  * 3. DEFINICIÓN DE RUTAS
@@ -51,6 +59,7 @@ app.use((req, res) => {
  * Este tiene 4 parámetros (err, req, res, next).
  * Si algo explota en tu código, este "colchón" atrapa el error para que el servidor no se apague.
  */
+
 app.use((err, req, res, next) => {
     console.error(err.stack); // Imprime el error en la consola del servidor para el programador.
     res.status(500).json({ mensaje: 'Error interno del servidor' });

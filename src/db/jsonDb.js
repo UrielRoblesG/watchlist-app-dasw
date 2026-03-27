@@ -31,7 +31,6 @@ class JsonDB {
         const file = path.join(DATA_DIR, `${coleccion}.json`);
 
         try {
-            // VERIFICACIÓN DE EXISTENCIA:
             // Si el archivo no existe, lo inicializamos con un arreglo vacío '[]'
             if (!existsSync(file)) {
                 console.log(`Archivo ${coleccion}.json no encontrado. Creando uno nuevo...`);
@@ -39,16 +38,13 @@ class JsonDB {
                 return []; // Retornamos vacío de inmediato ya que acabamos de crearlo
             }
 
-            // LECTURA ASÍNCRONA:
             const raw = await readFile(file, 'utf-8');
 
-            // VALIDACIÓN DE CONTENIDO:
             // Si el archivo está vacío por accidente (0 bytes), JSON.parse fallará.
             if (!raw.trim()) {
                 return [];
             }
 
-            // PARSEO Y RETORNO:
             return JSON.parse(raw);
 
         } catch (error) {
@@ -73,7 +69,19 @@ class JsonDB {
         // CONSTRUCCIÓN DE RUTA
         const file = path.join(DATA_DIR, `${coleccion}.json`);
 
-        // VALIDACIONES DE SEGURIDAD
+        // Si el archivo no existe, lo inicializamos 
+        try {
+            if (!existsSync(file)) {
+                // Creamos el archivo con un arreglo vacío stringificado
+                await writeFile(file, JSON.stringify([], null, 2), 'utf-8');
+                console.log(`Archivo "${coleccion}.json" no existía. Se ha creado uno nuevo.`);
+            }
+        } catch (err) {
+            console.error(`Error al intentar inicializar el archivo "${coleccion}":`, err.message);
+            return false;
+        }
+        // -----------------------------------------------------------------
+
         // Verificamos que 'data' no sea null o undefined antes de intentar guardarlo.
         if (data === undefined || data === null) {
             console.error(`Error: No se puede guardar datos nulos en "${coleccion}"`);
@@ -82,21 +90,18 @@ class JsonDB {
 
         try {
             /**
-             * SERIALIZACIÓN (JSON.stringify)
              * Transformamos el Arreglo/Objeto en Texto.
              * - null: No usamos una función transformadora.
              * - 2: Agregamos una indentación de 2 espacios para que el .json sea legible por humanos.
              */
             const stringData = JSON.stringify(data, null, 2);
 
-            // ESCRITURA ASÍNCRONA
             await writeFile(file, stringData, 'utf-8');
 
             return true;
 
         } catch (error) {
             /**
-             *
              * Puede fallar por falta de espacio en disco, falta de permisos de escritura
              * o si la ruta del directorio no existe.
              */

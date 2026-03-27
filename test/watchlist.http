@@ -1,0 +1,52 @@
+@baseUrl = http://localhost:8080/api/watchlist
+@token = 1774545626897|test@example.com|user
+
+### Obtener todos los items (sin filtros)
+GET {{baseUrl}}/
+Authorization: Bearer {{token}}
+
+### Obtener items filtrados por estado
+GET {{baseUrl}}/?estado=pendiente
+Authorization: Bearer {{token}}
+
+### Obtener items filtrados por tipo
+GET {{baseUrl}}/?tipo=pelicula
+Authorization: Bearer {{token}}
+
+### Obtener items filtrados por estado y tipo
+GET {{baseUrl}}/?estado=completado&tipo=serie
+Authorization: Bearer {{token}}
+
+### Obtener un item específico
+GET {{baseUrl}}/123456
+Authorization: Bearer {{token}}
+
+### Crear un nuevo item
+POST {{baseUrl}}/
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Matrix",
+    "tipo": "pelicula",
+    "genero": "Ciencia ficcion",
+    "rating": 9,
+    "estado": "pendiente",
+    "coverUrl": "https://example.com/matrix.jpg",
+    "notas": "Clasico imperdible"
+}
+
+### Actualizar un item
+PUT {{baseUrl}}/1774546194410
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "estado": "visto",
+    "rating": 10,
+    "notas": "Excelente pelicula"
+}
+
+### Eliminar un item
+DELETE {{baseUrl}}/123456
+Authorization: Bearer {{token}}

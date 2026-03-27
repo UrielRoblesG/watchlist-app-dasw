@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1774629703289,
+    "userId": 1774545626897,
+    "titulo": "Matrix",
+    "tipo": "pelicula",
+    "genero": "Ciencia ficcion",
+    "rating": 9,
+    "estado": "pendiente",
+    "coverUrl": "https://example.com/matrix.jpg",
+    "notas": "Clasico imperdible",
+    "createdAt": "2026-03-27T16:41:43.289Z",
+    "updatedAt": "2026-03-27T16:41:43.290Z"
+  }
+]

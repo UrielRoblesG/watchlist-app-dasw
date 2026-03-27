@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:8080/api/auth
+
+### Registro de usuario
+POST {{baseUrl}}/registro
+Content-Type: application/json
+
+{
+    "nombre": "Usuario de prueba",
+    "email": "test@example.com",
+    "password": "password123"
+}
+
+### Login de usuario
+POST {{baseUrl}}/ingresar
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password123"
+}
