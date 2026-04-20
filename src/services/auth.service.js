@@ -1,6 +1,5 @@
 import usuarioRepository from "../repositories/usuario.repository.js";
 
-import { crearUsuario } from '../models/User.model.js'
 
 class AuthService {
 
@@ -25,7 +24,7 @@ class AuthService {
 
         // 'crearUsuario' se encarga de estructurar el objeto (poner ID, fecha, etc.)
         // Nota: Aquí es donde normalmente se encriptaría la contraseña antes de guardar.
-        const nuevoUsuario = crearUsuario({ nombre, email, password });
+        const nuevoUsuario = {};
 
         // Enviamos el objeto estructurado al repositorio para que lo escriba en el JSON.
         const guardado = await usuarioRepository.guardar(nuevoUsuario);
