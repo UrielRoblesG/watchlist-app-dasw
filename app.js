@@ -8,6 +8,9 @@ import { router as apiRouter } from "./src/routes/index.api.route.js"; // Import
 import { router as viewRouter } from "./src/routes/index.routes.js";
 import { logMiddleware } from "./src/middlewares/log.middleware.js";
 
+import envConfig from './src/config/env.loader.js';
+import database from "./src/db/db.js";
+
 /**
  * 2. INSTANCIACIÓN Y MIDDLEWARES (Configuración)
  */
@@ -16,6 +19,9 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.use(cors());
+
+database.conectar();
+
 
 /**
  * MIDDLEWARE PARA JSON: 
@@ -81,7 +87,7 @@ app.use((err, req, res, next) => {
 /**
  * 5. PUESTA EN MARCHA
  */
-const PUERTO = 8080;
+const PUERTO = envConfig.puerto;
 
 app.listen(PUERTO, () => {
     console.log(`Servidor corriendo en el puerto http://localhost:${PUERTO}.`);
