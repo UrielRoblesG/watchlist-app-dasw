@@ -1,59 +1,65 @@
-/**
- * @typedef {Object} WatchlistItemData
- * @property {number} userId - ID del usuario propietario del item.
- * @property {string} titulo - Título del elemento (película, serie, etc.).
- * @property {string} tipo - Tipo de contenido ('pelicula', 'serie', 'libro', etc.).
- * @property {string} [genero=''] - Género del contenido.
- * @property {Date} [fecha] - Fecha de estreno.
- * @property {number|null} [rating=null] - Puntuación del 1 al 10.
- * @property {string} [estado='pendiente'] - Estado del item ('pendiente', 'visto', 'viendo').
- * @property {string} [coverUrl=''] - URL de la imagen de portada.
- * @property {string} [notas=''] - Notas personales del usuario.
- */
+import { model, Schema, SchemaTypes } from 'mongoose';
 
-/**
- * Crea un nuevo item de watchlist con datos normalizados y timestamps.
- * @function
- * @param {WatchlistItemData} datos - Datos del item a crear.
- * @returns {Object} Objeto de item de watchlist.
- * @returns {number} return.id - ID único generado con timestamp.
- * @returns {number} return.userId - ID del usuario propietario.
- * @returns {string} return.titulo - Título normalizado (sin espacios).
- * @returns {string} return.tipo - Tipo de contenido.
- * @returns {string} return.genero - Género del contenido.
- * @returns {number|null} return.rating - Puntuación asignada.
- * @returns {string} return.estado - Estado actual del item.
- * @returns {string} return.coverUrl - URL de la portada.
- * @returns {string} return.notas - Notas del usuario.
- * @returns {string} return.createdAt - Fecha de creación en formato ISO.
- * @returns {string} return.updatedAt - Fecha de última actualización en formato ISO.
- * @returns {string} return.fecha - Fecha de estreno de peliucla/serie.
- */
-const crearWatchlistItem = ({
-    userId,
-    titulo,
-    tipo,
-    genero = '',
-    rating = null,
-    fecha,
-    estado = 'pendiente',
-    coverUrl = '',
-    notas = '',
-}) => {
-    return {
-        id: Date.now(),
-        userId: Number.parseInt(userId),
-        titulo: titulo.trim(),
-        tipo,
-        genero,
-        rating,
-        estado,
-        coverUrl,
-        notas,
-        fecha,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-    };
-};
+const watchlistItemSchema = new Schema({
+    userId: {
+        type: SchemaTypes.ObjectId,
+        ref: 'Usuario',
+        required: [true, 'El ID del usuario es requerido']
+    },
+    titulo: {
+        type: String,
+        required: [true, 'El título es requerido'],
+        trim: true
+    },
+    tipo: {
+        type: String,
+        enum: {
+            values: ['series', 'movie'],
+            message: 'El tipo debe ser "series" o "movie"'
+        },
+        required: [true, 'El tipo es requerido']
+    },
+    genero: {
+        type: String,
+        required: [true, 'El género es requerido']
+    },
+    calificacion: {
+        type: Number,
+        default: 0,
+        min: [0, 'La calificación no puede ser menor a 0'],
+        max: [10, 'La calificación no puede ser mayor a 10']
+    },
+    estatus: {
+        type: String,
+        enum: {
+            values: ['pendiente', 'visto', 'viendo'],
+            message: 'El estatus debe ser "pendiente", "visto" o "viendo"'
+        },
+        default: 'pendiente'
+    },
+    coverUrl: {
+        type: String,
+        default: ''
+    },
+    notas: {
+        type: String,
+        default: ''
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
+});
 
-export { crearWatchlistItem };
+// Pre-hook para actualizar updatedAt antes de guardar
+watchlistItemSchema.pre('save', function () {
+    this.updatedAt = Date.now();
+});
+
+const WatchlistItem = model('WatchlistItem', watchlistItemSchema);
+
+export { WatchlistItem };

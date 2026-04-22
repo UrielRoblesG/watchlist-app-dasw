@@ -13,7 +13,7 @@ const encriptar = async (cad) => {
 
         return passwordEncriptado;
     } catch (error) {
-        throw new Error("Error al encriptar la contraseña. Error: ", error);
+        throw new Error("Error al encriptar la contraseña. Error: ", error.message);
     }
 }
 
@@ -23,7 +23,9 @@ const compararPassword = async (passwordEncriptado, passwordPlano) => {
 
         return coinciden
     } catch (error) {
-        throw new Error("Erro al comparar las contraseñas. Error: ", error);
+        console.error("Error al comparar las contraseñas. Error: ", error.message);
+
+        throw new Error("Error al comparar las contraseñas. Error: ", error.message);
     }
 }
 

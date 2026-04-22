@@ -1,7 +1,6 @@
 [
   {
-    "id": 1774629703290,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "Inception",
     "tipo": "pelicula",
     "genero": "Ciencia Ficción",
@@ -13,8 +12,7 @@
     "updatedAt": "2026-04-08T14:30:00.000Z"
   },
   {
-    "id": 1774629703291,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "Breaking Bad",
     "tipo": "serie",
     "genero": "Drama",
@@ -26,8 +24,7 @@
     "updatedAt": "2026-04-08T14:30:01.000Z"
   },
   {
-    "id": 1774629703292,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "The Dark Knight",
     "tipo": "pelicula",
     "genero": "Acción",
@@ -39,8 +36,7 @@
     "updatedAt": "2026-04-08T14:30:02.000Z"
   },
   {
-    "id": 1774629703293,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "Stranger Things",
     "tipo": "serie",
     "genero": "Ciencia Ficción",
@@ -52,8 +48,7 @@
     "updatedAt": "2026-04-08T14:30:03.000Z"
   },
   {
-    "id": 1774629703294,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "Interstellar",
     "tipo": "pelicula",
     "genero": "Ciencia Ficción",
@@ -65,8 +60,7 @@
     "updatedAt": "2026-04-08T14:30:04.000Z"
   },
   {
-    "id": 1774629703295,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "The Office",
     "tipo": "serie",
     "genero": "Comedia",
@@ -78,8 +72,7 @@
     "updatedAt": "2026-04-08T14:30:05.000Z"
   },
   {
-    "id": 1742747723001,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "Inception",
     "tipo": "movie",
     "genero": "Sci-Fi",
@@ -91,8 +84,7 @@
     "updatedAt": "2026-03-23T10:40:00.000Z"
   },
   {
-    "id": 1742747723002,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "The Bear",
     "tipo": "serie",
     "genero": "Drama",
@@ -104,8 +96,7 @@
     "updatedAt": "2026-03-23T11:00:00.000Z"
   },
   {
-    "id": 1742747723003,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "Succession",
     "tipo": "serie",
     "genero": "Drama / Comedy",
@@ -117,8 +108,7 @@
     "updatedAt": "2026-03-23T10:50:00.000Z"
   },
   {
-    "id": 1742747723004,
-    "userId": 1774367204499,
+    "userId": "69e6d4605ab79febf4af3d9e",
     "titulo": "Blade Runner 2049",
     "tipo": "movie",
     "genero": "Cyberpunk",

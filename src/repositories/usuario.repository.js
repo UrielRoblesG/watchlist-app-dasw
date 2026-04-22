@@ -1,5 +1,4 @@
-import jsonDb from "../db/jsonDb.js";
-
+import { Usuario } from "../models/User.model.js";
 class UsuarioRepository {
     constructor() {
         this._coleccion = 'usuarios';
@@ -12,30 +11,11 @@ class UsuarioRepository {
     * @returns {Promise<Object|null>} - El objeto del usuario si se encuentra, de lo contrario null.
     */
     obtenerPorEmail = async (email) => {
-
-        // Si no se proporciona un email o no es una cadena, cancelamos la búsqueda.
-        if (!email || typeof email !== 'string') {
-            return null;
-        }
         try {
-            // Usamos el operador Nullish Coalescing (??) para asegurar que siempre 
-            // tengamos un arreglo, incluso si la base de datos devuelve null/undefined.
-            const usuarios = await jsonDb.leer(this._coleccion) ?? [];
-
-            // .toLowerCase() es vital: Para el sistema, "Juan@Mail.com" y "juan@mail.com" 
-            // deben ser el mismo usuario.
-            const emailBusqueda = email.trim().toLowerCase();
-
-            const usuarioEncontrado = usuarios.find(u =>
-                u.email && u.email.toLowerCase() === emailBusqueda
-            );
-
-            // Si .find() no encuentra nada, devuelve undefined; nosotros normalizamos a null.
-            return usuarioEncontrado ?? null;
-
+            const usuario = await Usuario.findOne({ email: email.toLowerCase() }).populate('rol');
+            return usuario ?? null;
         } catch (error) {
-            console.error(`Error al buscar usuario por email (${email}):`, error.message);
-            return null;
+            throw new Error("Error al obtener usuario por email: ", email.toLowerCase());
         }
     }
 
@@ -46,32 +26,29 @@ class UsuarioRepository {
     * @returns {Promise<Object|null>} - El usuario guardado o null si hubo un error.
     */
     guardar = async (usuario) => {
-        // Verificamos que el objeto usuario exista y no esté vacío.
-        if (!usuario || Object.keys(usuario).length === 0) {
-            console.error("Error: No se puede guardar un usuario vacío.");
-            return null;
-        }
-
         try {
-            // Es vital obtener el arreglo completo antes de modificarlo.
-            const usuarios = await jsonDb.leer(this._coleccion) ?? [];
-
-            // Agregamos el nuevo usuario al final de la lista existente.
-            usuarios.push(usuario);
-
-            /**
-             * IMPORTANTE: Debemos pasar 'usuarios' (el arreglo completo), 
-             * NO solo el objeto 'usuario' individual.
-             * Si pasas solo el individuo, el archivo .json se sobrescribirá 
-             * y perderás a todos los usuarios anteriores.
-             */
-            await jsonDb.guardar(this._coleccion, usuarios);
-
-            return usuario;
-
+            const nuevoUsuario = new Usuario(usuario);
+            const usuarioGuardado = await nuevoUsuario.save();
+            return usuarioGuardado;
         } catch (error) {
-            console.error("Error crítico al intentar guardar el usuario:", error.message);
-            return null;
+            throw new Error(`Error al guardar el usuario. Error: ${error.message}`);
+        }
+    }
+
+    buscarPorId = async (id) => {
+        try {
+            const usuario = await Usuario.findById(id);
+            return usuario ?? null;
+        } catch (error) {
+
+        }
+    }
+
+    obtenerTodo = async () => {
+        try {
+            return await Usuario.find({});
+        } catch (error) {
+
         }
     }
 }

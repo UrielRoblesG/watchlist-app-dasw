@@ -15,6 +15,7 @@ const obtenerTodos = async (req = request, res = response) => {
         const { userId } = req.user;
 
         const filtros = req.query;
+        console.log(userId);
 
         const items = await watchlistService.obtenerTodos(userId, filtros);
         res.status(200).json({ count: items.length, data: items });
@@ -36,7 +37,7 @@ const obtenerTodos = async (req = request, res = response) => {
  */
 const obtenerUno = async (req = request, res = response) => {
     try {
-        const userId = req.headers['x-token'];
+        const { userId } = req.headers.user;
         const { id } = req.params;
         const item = await watchlistService.obtenerUno({ id, userId });
         res.status(200).json({ data: item });

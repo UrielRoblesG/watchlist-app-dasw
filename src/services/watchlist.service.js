@@ -1,5 +1,3 @@
-import { crearWatchlistItem } from "../models/WatchlistItem.model.js";
-
 import watchlistRepository from "../repositories/watchlist.repository.js";
 
 /**
@@ -15,6 +13,8 @@ class WatchlistService {
      * @returns {Promise<Array>} Promesa que resuelve con los ítems filtrados.
      */
     obtenerTodos = async (userId = '', filtros) => {
+        console.log(userId);
+
         return await watchlistRepository.obtenerTodosPorUsuario(userId, filtros);
     };
 
@@ -40,16 +40,12 @@ class WatchlistService {
     /**
      * Crea un nuevo ítem en el watchlist del usuario.
      * @async
-     * @param {number} userId - ID del usuario.
+     * @param {string} userId - ID del usuario.
      * @param {Object} data - Datos del nuevo ítem.
      * @returns {Promise<Object>} Promesa que resuelve con el ítem creado.
      */
     crear = async (userId, data) => {
-
-        const newItem = crearWatchlistItem({ userId, ...data });
-        console.log(typeof newItem.id);
-
-        return watchlistRepository.guardar(newItem);
+        return await watchlistRepository.guardar({ userId, ...data });
     };
 
     /**
