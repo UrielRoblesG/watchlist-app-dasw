@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import envConfig from '../config/env.loader.js';
 
-export const generarToken = (payload, expiresIn = '30m') => {
+export const generarToken = (payload, expiresIn = '3h') => {
     try {
         const token = jwt.sign(payload, envConfig.jwtSecret, {
             expiresIn: expiresIn

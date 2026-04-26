@@ -34,7 +34,7 @@ class AuthService {
                 password: password
             };
             // Enviamos el objeto estructurado al repositorio para que lo escriba en el JSON.
-            const guardado = await usuarioRepository.guardar(nuevoUsuario);
+            const guardado = await usuarioRepository.crear(nuevoUsuario);
             return this._sanitizar(guardado);
         } catch (error) {
             console.error(error);
@@ -74,8 +74,6 @@ class AuthService {
         }
 
         // El token es la "llave" que el cliente usará en futuras peticiones.
-
-        console.log(existe);
         const token = this._generarToken(existe);
 
         // Devolvemos el usuario limpio (sin password) y el token generado.
@@ -108,9 +106,7 @@ class AuthService {
             id: usuario._id,
             nombre: usuario.nombre,
             email: usuario.email,
-            rol: {
-                nombre: usuario.rol?.nombre || null
-            }
+            rol: usuario.rol?.nombre
         };
     }
 }
