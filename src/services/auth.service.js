@@ -1,6 +1,7 @@
 import { Usuario } from "../models/User.model.js";
 import usuarioRepository from "../repositories/usuario.repository.js";
 import { compararPassword } from "../utils/encrypt.js";
+import { generarToken } from "../utils/jwt.js";
 
 
 class AuthService {
@@ -73,6 +74,8 @@ class AuthService {
         }
 
         // El token es la "llave" que el cliente usará en futuras peticiones.
+
+        console.log(existe);
         const token = this._generarToken(existe);
 
         // Devolvemos el usuario limpio (sin password) y el token generado.
@@ -82,7 +85,17 @@ class AuthService {
         };
     }
 
-    _generarToken = ({ id, email, rol }) => `${id}|${email}|${rol.nombre}`;
+    _generarToken = ({ _id, nombre, code, rol }) => {
+
+        const payload = {
+            id: _id,
+            nombre,
+            codigoInterno: code,
+            rol: rol.nombre
+        };
+
+        return generarToken(payload);
+    }
 
     /**
     * Limpia el objeto de usuario devolviendo solo información básica.

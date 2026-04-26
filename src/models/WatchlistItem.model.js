@@ -14,7 +14,7 @@ const watchlistItemSchema = new Schema({
     tipo: {
         type: String,
         enum: {
-            values: ['series', 'movie'],
+            values: ['serie', 'movie'],
             message: 'El tipo debe ser "series" o "movie"'
         },
         required: [true, 'El tipo es requerido']

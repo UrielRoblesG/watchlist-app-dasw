@@ -7,6 +7,7 @@ class EnvConfig {
     // Propiedades privadas
     #puerto;
     #databaseUri;
+    #jwtSecret;
 
     constructor() {
         if (EnvConfig.#instance) {
@@ -27,6 +28,14 @@ class EnvConfig {
         this.#databaseUri = uri;
 
         console.log(this.#databaseUri);
+
+
+        const secret = process.env.JWT_SECRET;
+
+        if (secret.trim() == '')
+            throw new Error("No se logro cargar la variable de entorno JWT_SECRET");
+
+        this.#jwtSecret = secret;
 
         EnvConfig.#instance = this;
     }
@@ -53,6 +62,15 @@ class EnvConfig {
     set puerto(value) {
         throw new Error('Cannot modify the value of PUERTO. It is a read-only property.');
     }
+
+    set jwtSecret(value) {
+        throw new Error('Cannot modify the value of JWT_SECRET. It is a read-only property.');
+    }
+
+    get jwtSecret() {
+        return this.#jwtSecret;
+    }
+
 }
 
 const envConfig = new EnvConfig();

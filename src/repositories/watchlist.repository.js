@@ -1,5 +1,6 @@
 
 
+import mongoose from "mongoose";
 import { WatchlistItem } from "../models/WatchlistItem.model.js";
 
 /**
@@ -18,7 +19,7 @@ class WatchlistRepository {
      * @returns {Promise<Array>} Array de items que coinciden con los criterios.
      */
     obtenerTodosPorUsuario = async (userId, { estatus, tipo } = {}) => {
-        const query = { userId };
+        const query = { userId: new mongoose.Types.ObjectId(userId) };
 
         if (estatus) query.estatus = estatus;
         if (tipo) query.tipo = tipo;
@@ -34,7 +35,10 @@ class WatchlistRepository {
      * @returns {Promise<Object|null>} El item encontrado o null si no existe.
      */
     buscarPorIdyUsuario = async (id, userId) => {
-        return await WatchlistItem.findOne({ _id: id, userId });
+        const _id = new mongoose.Types.ObjectId(id);
+        const _userId = new mongoose.Types.ObjectId(userId);
+
+        return await WatchlistItem.findOne({ _id, userId: { $in: [_userId, userId] } });
     };
 
     /**

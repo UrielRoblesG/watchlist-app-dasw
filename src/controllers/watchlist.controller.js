@@ -11,6 +11,7 @@ import viewLoader from "../utils/view.loader.js";
  * @returns {Promise<void>}
  */
 const obtenerTodos = async (req = request, res = response) => {
+
     try {
         const { userId } = req.user;
 
@@ -37,7 +38,7 @@ const obtenerTodos = async (req = request, res = response) => {
  */
 const obtenerUno = async (req = request, res = response) => {
     try {
-        const { userId } = req.headers.user;
+        const { userId } = req.user;
         const { id } = req.params;
         const item = await watchlistService.obtenerUno({ id, userId });
         res.status(200).json({ data: item });

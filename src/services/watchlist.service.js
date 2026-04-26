@@ -34,7 +34,27 @@ class WatchlistService {
             error.status = 404;
             throw error;
         }
-        return item;
+        const { _id,
+            titulo,
+            tipo,
+            genero,
+            rating,
+            estado,
+            coverUrl,
+            notas, 
+            createdAt, 
+            updatedAt, 
+             } = item;
+        return {
+            id: _id,
+            titulo,
+            tipo,
+            genero,
+            rating,
+            estado,
+            coverUrl,
+            notas
+        };
     };
 
     /**
