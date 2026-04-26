@@ -6,16 +6,14 @@ import watchlistRepository from "../repositories/watchlist.repository.js";
  */
 class WatchlistService {
     /**
-     * Obtiene todos los ítems del watchlist de un usuario, opcionalmente filtrados.
+     * Obtiene todos los ítems del watchlist de un usuario con paginación y filtros.
      * @async
      * @param {string} [userId=''] - ID del usuario.
-     * @param {Object} filtros - Objeto con criterios de filtrado.
-     * @returns {Promise<Array>} Promesa que resuelve con los ítems filtrados.
+     * @param {Object} opciones - Opciones de filtrado y paginación.
+     * @returns {Promise<Object>} Objeto con items paginados y metadatos.
      */
-    obtenerTodos = async (userId = '', filtros) => {
-        console.log(userId);
-
-        return await watchlistRepository.obtenerTodosPorUsuario(userId, filtros);
+    obtenerTodos = async (userId = '', opciones = {}) => {
+        return await watchlistRepository.obtenerTodosPorUsuario(userId, opciones);
     };
 
     /**

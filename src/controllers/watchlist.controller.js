@@ -11,15 +11,23 @@ import viewLoader from "../utils/view.loader.js";
  * @returns {Promise<void>}
  */
 const obtenerTodos = async (req = request, res = response) => {
-
     try {
         const { userId } = req.user;
+        const { page = 1, limit = 10, estatus, tipo } = req.query;
 
-        const filtros = req.query;
-        console.log(userId);
+        const opciones = {
+            page: Math.max(1, parseInt(page)),
+            limit: Math.max(1, parseInt(limit)),
+            estatus,
+            tipo
+        };
 
-        const items = await watchlistService.obtenerTodos(userId, filtros);
-        res.status(200).json({ count: items.length, data: items });
+        const resultado = await watchlistService.obtenerTodos(userId, opciones);
+
+        res.status(200).json({
+            data: resultado.items,
+            pagination: resultado.pagination
+        });
     } catch (error) {
         res.status(error.status || 500).json({
             mensaje: 'Ocurrio un error en la solicitud',

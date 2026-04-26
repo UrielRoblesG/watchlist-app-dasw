@@ -10,21 +10,38 @@ import { WatchlistItem } from "../models/WatchlistItem.model.js";
  */
 class WatchlistRepository {
     /**
-     * Obtiene todos los items de watchlist de un usuario específico.
+     * Obtiene todos los items de watchlist de un usuario específico con paginación.
      * @async
      * @param {string} userId - ID del usuario propietario de los items.
-     * @param {Object} filtros - Filtros opcionales para refinar la búsqueda.
-     * @param {string} [filtros.estatus] - Filtrar por estatus del item.
-     * @param {string} [filtros.tipo] - Filtrar por tipo de item.
-     * @returns {Promise<Array>} Array de items que coinciden con los criterios.
+     * @param {Object} opciones - Opciones de filtrado y paginación.
+     * @param {string} [opciones.estatus] - Filtrar por estatus del item.
+     * @param {string} [opciones.tipo] - Filtrar por tipo de item.
+     * @param {number} [opciones.page=1] - Número de página (comienza en 1).
+     * @param {number} [opciones.limit=10] - Items por página.
+     * @returns {Promise<Object>} Objeto con items, total y metadatos de paginación.
      */
-    obtenerTodosPorUsuario = async (userId, { estatus, tipo } = {}) => {
+    obtenerTodosPorUsuario = async (userId, { estatus, tipo, page = 1, limit = 10 } = {}) => {
         const query = { userId: new mongoose.Types.ObjectId(userId) };
 
         if (estatus) query.estatus = estatus;
         if (tipo) query.tipo = tipo;
 
-        return await WatchlistItem.find(query).sort({ createdAt: -1 });
+        const total = await WatchlistItem.countDocuments(query);
+        const skip = (page - 1) * limit;
+        const items = await WatchlistItem.find(query)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        return {
+            items,
+            pagination: {
+                total,
+                page,
+                limit,
+                pages: Math.ceil(total / limit)
+            }
+        };
     };
 
     /**
