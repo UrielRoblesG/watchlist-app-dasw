@@ -31,6 +31,12 @@ const registroSchema = checkSchema({
             options: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])/,
             errorMessage: 'Debe contrener minusculas, mayusculas y numeros.'
         }
+    },
+    rol: {
+        in: 'body',
+        optional: true,
+        isString: [true, 'El formato del id rol no es valido.'],
+        notEmpty: [true, 'El campo rol no puede estar vacio.'],
     }
 });
 
