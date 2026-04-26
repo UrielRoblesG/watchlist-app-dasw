@@ -1,0 +1,1560 @@
+{
+  "info": {
+    "name": "Watchlist API - Completa",
+    "description": "Colección de pruebas para autenticación, gestión de usuarios y watchlist",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. AUTENTICACIÓN",
+      "item": [
+        {
+          "name": "POST - Registro",
+          "item": [
+            {
+              "name": "Exitoso - Registro nuevo usuario",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Juan Pérez García\",\n  \"email\": \"juan@example.com\",\n  \"password\": \"Password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/registro",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "registro"]
+                }
+              }
+            },
+            {
+              "name": "Error - Email ya existe",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Otro Nombre\",\n  \"email\": \"juan@example.com\",\n  \"password\": \"Password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/registro",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "registro"]
+                }
+              }
+            },
+            {
+              "name": "Error - Nombre muy corto",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"ab\",\n  \"email\": \"test@example.com\",\n  \"password\": \"Password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/registro",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "registro"]
+                }
+              }
+            },
+            {
+              "name": "Error - Email inválido",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Test User\",\n  \"email\": \"email-invalido\",\n  \"password\": \"Password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/registro",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "registro"]
+                }
+              }
+            },
+            {
+              "name": "Error - Contraseña muy corta",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"Pass1\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/registro",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "registro"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin mayúsculas en contraseña",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/registro",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "registro"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin números en contraseña",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"PasswordTest\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/registro",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "registro"]
+                }
+              }
+            },
+            {
+              "name": "Error - Campo faltante (nombre)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/registro",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "registro"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST - Login/Ingresar",
+          "item": [
+            {
+              "name": "Exitoso - Login correcto",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"juan@example.com\",\n  \"password\": \"Password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/ingresar",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "ingresar"]
+                }
+              }
+            },
+            {
+              "name": "Error - Email no existe",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"noexiste@example.com\",\n  \"password\": \"Password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/ingresar",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "ingresar"]
+                }
+              }
+            },
+            {
+              "name": "Error - Contraseña incorrecta",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"juan@example.com\",\n  \"password\": \"PasswordIncorrecto123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/ingresar",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "ingresar"]
+                }
+              }
+            },
+            {
+              "name": "Error - Email inválido",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"email-invalido\",\n  \"password\": \"Password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/ingresar",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "ingresar"]
+                }
+              }
+            },
+            {
+              "name": "Error - Campo faltante",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"juan@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/ingresar",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "auth", "ingresar"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. USUARIOS",
+      "item": [
+        {
+          "name": "GET - Obtener estadísticas",
+          "item": [
+            {
+              "name": "Exitoso - Obtener total de usuarios",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/stats",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "stats"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET - Obtener todos los usuarios",
+          "item": [
+            {
+              "name": "Exitoso - Obtener lista de usuarios",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users"]
+                }
+              }
+            },
+            {
+              "name": "Error - Token inválido",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer token_invalido",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET - Obtener usuario por ID",
+          "item": [
+            {
+              "name": "Exitoso - Obtener usuario específico",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "{{userId}}"]
+                }
+              }
+            },
+            {
+              "name": "Error - Usuario no encontrado",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/507f1f77bcf86cd799439011",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "507f1f77bcf86cd799439011"]
+                }
+              }
+            },
+            {
+              "name": "Error - ID formato inválido",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/id-invalido",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "id-invalido"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "{{userId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET - Obtener mi perfil",
+          "item": [
+            {
+              "name": "Exitoso - Obtener mi perfil",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/profile",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "profile"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/profile",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "profile"]
+                }
+              }
+            },
+            {
+              "name": "Error - Token inválido",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer token_invalido",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/profile",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "profile"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST - Crear usuario",
+          "item": [
+            {
+              "name": "Exitoso - Crear nuevo usuario",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"María González López\",\n  \"email\": \"maria@example.com\",\n  \"password\": \"Password456\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users"]
+                }
+              }
+            },
+            {
+              "name": "Error - Email ya existe",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Otro Nombre\",\n  \"email\": \"maria@example.com\",\n  \"password\": \"Password456\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users"]
+                }
+              }
+            },
+            {
+              "name": "Error - Validación fallida",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Test\",\n  \"email\": \"invalid-email\",\n  \"password\": \"short\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT - Actualizar usuario por ID",
+          "item": [
+            {
+              "name": "Exitoso - Actualizar nombre",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Juan Pérez García Actualizado\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "{{userId}}"]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Actualizar email",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"juannuevo@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "{{userId}}"]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Actualizar ambos campos",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Juan Pérez García\",\n  \"email\": \"juan2@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "{{userId}}"]
+                }
+              }
+            },
+            {
+              "name": "Error - Usuario no encontrado",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Test Name\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/507f1f77bcf86cd799439011",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "507f1f77bcf86cd799439011"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Test Name\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "{{userId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT - Actualizar mi perfil",
+          "item": [
+            {
+              "name": "Exitoso - Actualizar mi perfil",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Mi Nuevo Nombre\",\n  \"email\": \"miemailnuevo@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/profile",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "profile"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nombre\": \"Test\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/profile",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "profile"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE - Eliminar usuario",
+          "item": [
+            {
+              "name": "Exitoso - Eliminar usuario",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "{{userId}}"]
+                }
+              }
+            },
+            {
+              "name": "Error - Usuario no encontrado",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/507f1f77bcf86cd799439011",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "507f1f77bcf86cd799439011"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/usuarios/{{userId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "users", "{{userId}}"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. WATCHLIST",
+      "item": [
+        {
+          "name": "GET - Obtener todos los items",
+          "item": [
+            {
+              "name": "Exitoso - Sin paginación",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Con paginación (página 1, 5 items)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist?page=1&limit=5",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Con filtro por estatus",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist?estatus=viendo&page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"],
+                  "query": [
+                    {
+                      "key": "estatus",
+                      "value": "viendo"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Con filtro por tipo",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist?tipo=movie&page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"],
+                  "query": [
+                    {
+                      "key": "tipo",
+                      "value": "movie"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Con filtros múltiples",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist?estatus=visto&tipo=serie&page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"],
+                  "query": [
+                    {
+                      "key": "estatus",
+                      "value": "visto"
+                    },
+                    {
+                      "key": "tipo",
+                      "value": "serie"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Error - Página fuera de rango",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist?page=999&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "999"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin token de autenticación",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Error - Token inválido",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer token_invalido_123",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET - Obtener un item específico",
+          "item": [
+            {
+              "name": "Exitoso - Obtener por ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            },
+            {
+              "name": "Error - ID no encontrado",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/507f1f77bcf86cd799439011",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "507f1f77bcf86cd799439011"]
+                }
+              }
+            },
+            {
+              "name": "Error - ID con formato inválido",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/id-invalido",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "id-invalido"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST - Crear nuevo item",
+          "item": [
+            {
+              "name": "Exitoso - Crear película",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"Inception\",\n  \"tipo\": \"movie\",\n  \"genero\": \"Ciencia Ficción\",\n  \"calificacion\": 8.8,\n  \"estatus\": \"visto\",\n  \"coverUrl\": \"https://example.com/inception.jpg\",\n  \"notas\": \"Película excelente, muy recomendada\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Crear serie",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"Breaking Bad\",\n  \"tipo\": \"serie\",\n  \"genero\": \"Drama\",\n  \"calificacion\": 9.5,\n  \"estatus\": \"visto\",\n  \"coverUrl\": \"https://example.com/breakingbad.jpg\",\n  \"notas\": \"La mejor serie de crimen jamás hecha\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Con campos mínimos",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"The Matrix\",\n  \"tipo\": \"movie\",\n  \"genero\": \"Ciencia Ficción\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Error - Falta el título",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tipo\": \"movie\",\n  \"genero\": \"Ciencia Ficción\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Error - Tipo inválido",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"The Matrix\",\n  \"tipo\": \"documental\",\n  \"genero\": \"Ciencia Ficción\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Error - Calificación negativa",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"The Matrix\",\n  \"tipo\": \"movie\",\n  \"genero\": \"Ciencia Ficción\",\n  \"calificacion\": -5\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Error - Calificación mayor a 10",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"The Matrix\",\n  \"tipo\": \"movie\",\n  \"genero\": \"Ciencia Ficción\",\n  \"calificacion\": 15\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"The Matrix\",\n  \"tipo\": \"movie\",\n  \"genero\": \"Ciencia Ficción\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "PUT - Actualizar item",
+          "item": [
+            {
+              "name": "Exitoso - Actualizar calificación",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calificacion\": 9.5\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Actualizar estatus",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estatus\": \"viendo\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            },
+            {
+              "name": "Exitoso - Actualizar múltiples campos",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calificacion\": 8.5,\n  \"estatus\": \"visto\",\n  \"notas\": \"Excelente película, recomendada\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            },
+            {
+              "name": "Error - ID no encontrado",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calificacion\": 9\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/507f1f77bcf86cd799439011",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "507f1f77bcf86cd799439011"]
+                }
+              }
+            },
+            {
+              "name": "Error - Calificación inválida",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calificacion\": 12\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"calificacion\": 9\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE - Eliminar item",
+          "item": [
+            {
+              "name": "Exitoso - Eliminar item",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            },
+            {
+              "name": "Error - ID no encontrado",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/507f1f77bcf86cd799439011",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "507f1f77bcf86cd799439011"]
+                }
+              }
+            },
+            {
+              "name": "Error - Sin autenticación",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/watchlist/{{itemId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "watchlist", "{{itemId}}"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "itemId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
