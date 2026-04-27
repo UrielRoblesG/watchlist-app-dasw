@@ -14,18 +14,11 @@ import { registroSchema } from '../validators/registro.schema.js';
 import { validarResultado } from '../middlewares/validate.result.middleware.js';
 import { esPropietarioUsuario } from '../middlewares/es.propietario.middleware.js';
 import { actualizarUsuarioSchema } from "../validators/actualizar.usuario.schema.js";
+import { validarRol } from '../middlewares/validar.rol.middleware.js';
+import rolesUsuarios from '../constants/roles.js';
 
 const router = Router();
 
-
-router.use(validarToken);
-
-/**
- * POST /api/users
- * Crea un nuevo usuario
- * Body: { nombre, email, password }
- */
-router.post('/', registroSchema, validarResultado, crear);
 
 /**
  * GET /api/users/stats
@@ -38,15 +31,25 @@ router.get('/stats', obtenerEstadisticas);
  */
 
 /**
+ * POST /api/users
+ * Crea un nuevo usuario
+ * Body: { nombre, email, password }
+ */
+router.post('/', validarToken, validarRol([rolesUsuarios.ADMINISTRADOR]), registroSchema, validarResultado, crear);
+
+
+/**
  * GET /api/users/profile
  * Obtiene el perfil del usuario autenticado
+ * TODO: Agregar middleware para comprobar si es propietario
  */
-router.get('/profile', validarToken, obtenerMiPerfil);
+router.get('/profile', validarToken, validarRol([rolesUsuarios.USUARIO]), obtenerMiPerfil);
 
 /**
  * PUT /api/users/profile
  * Actualiza el perfil del usuario autenticado
  * Body: { nombre?, email? }
+ * TODO: Agregar middleware para comprobar si es propietario
  */
 router.put('/profile', validarToken, actualizarMiPerfil);
 
@@ -55,14 +58,16 @@ router.put('/profile', validarToken, actualizarMiPerfil);
  * Obtiene todos los usuarios (solo administradores)
  * TODO: Agregar middleware de verificación de rol (admin)
  */
-router.get('/', validarToken, obtenerTodos);
+router.get('/', validarToken, validarRol([rolesUsuarios.ADMINISTRADOR]), obtenerTodos);
 
 /**
  * GET /api/users/:id
  * Obtiene un usuario específico por ID
- * TODO: Agregar verificación de autorización
+ * TODO: Agregar verificación de propietario
  */
-router.get('/:id', validarToken, esPropietarioUsuario, obtenerPorId);
+router.get('/:id', validarToken,
+    validarRol([rolesUsuarios.ADMINISTRADOR, rolesUsuarios.USUARIO]),
+    obtenerPorId);
 
 /**
  * PUT /api/users/:id
@@ -81,6 +86,6 @@ router.put('/:id',
  * Elimina un usuario específico
  * TODO: Agregar verificación de autorización (solo admin)
  */
-router.delete('/:id', validarToken, eliminar);
+router.delete('/:id', validarToken, validarRol([rolesUsuarios.ADMINISTRADOR]), eliminar);
 
 export { router };
