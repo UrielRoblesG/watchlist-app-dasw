@@ -10,7 +10,7 @@ class AuthService {
      * Coordina el proceso de registro de un nuevo usuario.
      * Aplica reglas de negocio: validación de duplicados, creación y limpieza de datos.
      * * @param {Object} datos - Objeto desestructurado con nombre, email y password.
-     * @returns {Promise<Object>} - El usuario creado y sanitizado (sin datos sensibles).
+     * @returns {Promise<Object>} - El usuario creado y su token de autenticación.
      * @throws {Error} - Lanza un error 409 si el email ya existe.
      */
     registrarUsuario = async ({ nombre, email, password }) => {
@@ -35,7 +35,14 @@ class AuthService {
             };
             // Enviamos el objeto estructurado al repositorio para que lo escriba en el JSON.
             const guardado = await usuarioRepository.crear(nuevoUsuario);
-            return this._sanitizar(guardado);
+
+            // Generar token automáticamente después del registro
+            const token = this._generarToken(guardado);
+
+            return {
+                user: this._sanitizar(guardado),
+                token
+            };
         } catch (error) {
             console.error(error);
             throw new Error('Error guardando el usuario. Error: ', error.message);

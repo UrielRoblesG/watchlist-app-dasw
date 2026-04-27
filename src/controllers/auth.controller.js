@@ -15,18 +15,18 @@ const registro = async (req = request, res = response) => {
     try {
         // Pasamos el cuerpo de la petición (req.body) directamente al servicio.
         // El 'await' es obligatorio porque la base de datos es asíncrona.
-        const usuario = await authService.registrarUsuario(req.body);
+        const respuesta = await authService.registrarUsuario(req.body);
 
-        // Usamos el código 201 (Created) que es el estándar semántico 
+        // Usamos el código 201 (Created) que es el estándar semántico
         // correcto para cuando se crea un nuevo recurso.
         res.status(201).json({
             mensaje: 'Usuario creado exitosamente',
-            usuario: usuario
+            respuesta: respuesta
         });
 
     } catch (error) {
         /**
-         * Si el servicio lanza un error (ej. "El usuario ya existe"), 
+         * Si el servicio lanza un error (ej. "El usuario ya existe"),
          * intentamos usar el código de estado que venga en el error (400, 409, etc.).
          * Si no tiene uno, por defecto usamos 500 (Error del servidor).
          */

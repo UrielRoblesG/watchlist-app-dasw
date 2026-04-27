@@ -18,13 +18,21 @@ class WatchlistRepository {
      * @param {string} [opciones.tipo] - Filtrar por tipo de item.
      * @param {number} [opciones.page=1] - Número de página (comienza en 1).
      * @param {number} [opciones.limit=10] - Items por página.
+     * @param {String} [opciones.genero] - genero del item.
      * @returns {Promise<Object>} Objeto con items, total y metadatos de paginación.
      */
-    obtenerTodosPorUsuario = async (userId, { estatus, tipo, page = 1, limit = 10 } = {}) => {
+    obtenerTodosPorUsuario = async (userId, { estatus, tipo, page = 1, limit = 10, genero } = {}) => {
         const query = { userId: new mongoose.Types.ObjectId(userId) };
+
+        console.log(query);
 
         if (estatus) query.estatus = estatus;
         if (tipo) query.tipo = tipo;
+        if (genero)
+            query.genero = {
+                $regex: genero,
+                $options: 'i'
+            };
 
         const total = await WatchlistItem.countDocuments(query);
         const skip = (page - 1) * limit;
@@ -32,6 +40,8 @@ class WatchlistRepository {
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit);
+
+        console.log(items);
 
         return {
             items,

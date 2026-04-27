@@ -105,8 +105,9 @@
             <label class="form-label">Nombre completo</label>
             <div class="input-icon-wrapper">
               <i class="bi bi-person input-icon"></i>
-              <input type="text" class="form-control" placeholder="Tu nombre" />
+              <input type="text" class="form-control" id="register-nombre" placeholder="Tu nombre" />
             </div>
+            <div class="error-message hidden" id="nombre-error-reg"></div>
           </div>
 
           <div class="form-group">
@@ -116,9 +117,11 @@
               <input
                 type="email"
                 class="form-control"
+                id="register-email"
                 placeholder="tu@email.com"
               />
             </div>
+            <div class="error-message hidden" id="email-error-reg"></div>
           </div>
 
           <div class="form-group">
@@ -128,7 +131,7 @@
                 type="password"
                 class="form-control"
                 id="register-password"
-                placeholder="Mínimo 8 caracteres"
+                placeholder="Mínimo 6 caracteres"
               />
               <button
                 type="button"
@@ -138,6 +141,7 @@
                 <i class="bi bi-eye"></i>
               </button>
             </div>
+            <div class="error-message hidden" id="password-error-reg"></div>
           </div>
 
           <div class="form-group">
@@ -157,6 +161,7 @@
                 <i class="bi bi-eye"></i>
               </button>
             </div>
+            <div class="error-message hidden" id="confirm-error-reg"></div>
           </div>
 
           <button type="submit" class="btn-auth">Crear Cuenta</button>

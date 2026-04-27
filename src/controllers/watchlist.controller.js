@@ -13,14 +13,16 @@ import viewLoader from "../utils/view.loader.js";
 const obtenerTodos = async (req = request, res = response) => {
     try {
         const { userId } = req.user;
-        const { page = 1, limit = 10, estatus, tipo } = req.query;
-
+        const { page = 1, limit = 10, estatus, tipo, genero } = req.query;
         const opciones = {
             page: Math.max(1, parseInt(page)),
             limit: Math.max(1, parseInt(limit)),
             estatus,
-            tipo
+            tipo,
+            genero
         };
+
+        console.log(opciones);
 
         const resultado = await watchlistService.obtenerTodos(userId, opciones);
 
