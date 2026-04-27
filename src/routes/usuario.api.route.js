@@ -14,7 +14,11 @@ import { registroSchema } from '../validators/registro.schema.js';
 import { validarResultado } from '../middlewares/validate.result.middleware.js';
 import { esPropietarioUsuario } from '../middlewares/es.propietario.middleware.js';
 import { actualizarUsuarioSchema } from "../validators/actualizar.usuario.schema.js";
+
 const router = Router();
+
+
+router.use(validarToken);
 
 /**
  * POST /api/users
