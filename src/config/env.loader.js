@@ -8,6 +8,7 @@ class EnvConfig {
     #puerto;
     #databaseUri;
     #jwtSecret;
+    #entorno;
 
     constructor() {
         if (EnvConfig.#instance) {
@@ -36,6 +37,9 @@ class EnvConfig {
             throw new Error("No se logro cargar la variable de entorno JWT_SECRET");
 
         this.#jwtSecret = secret;
+
+        this.#entorno = process.env.NODE_ENV || 'desarrollo';
+
 
         EnvConfig.#instance = this;
     }
@@ -71,6 +75,13 @@ class EnvConfig {
         return this.#jwtSecret;
     }
 
+    get entorno() {
+        return this.#entorno;
+    }
+
+    set entorno(value) {
+        throw new Error("No puedes modificar la variable NODE_ENV");
+    }
 }
 
 const envConfig = new EnvConfig();

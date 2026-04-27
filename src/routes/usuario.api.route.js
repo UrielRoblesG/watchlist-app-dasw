@@ -12,7 +12,8 @@ import {
 import { validarToken } from '../middlewares/auth.middleware.js';
 import { registroSchema } from '../validators/registro.schema.js';
 import { validarResultado } from '../middlewares/validate.result.middleware.js';
-
+import { esPropietarioUsuario } from '../middlewares/es.propietario.middleware.js';
+import { actualizarUsuarioSchema } from "../validators/actualizar.usuario.schema.js";
 const router = Router();
 
 /**
@@ -57,7 +58,7 @@ router.get('/', validarToken, obtenerTodos);
  * Obtiene un usuario específico por ID
  * TODO: Agregar verificación de autorización
  */
-router.get('/:id', validarToken, obtenerPorId);
+router.get('/:id', validarToken, esPropietarioUsuario, obtenerPorId);
 
 /**
  * PUT /api/users/:id
@@ -65,7 +66,11 @@ router.get('/:id', validarToken, obtenerPorId);
  * TODO: Agregar verificación de autorización (solo admin o el usuario mismo)
  * Body: { nombre?, email? }
  */
-router.put('/:id', validarToken, actualizar);
+router.put('/:id',
+    actualizarUsuarioSchema,
+    validarResultado,
+    validarToken,
+    actualizar);
 
 /**
  * DELETE /api/users/:id
