@@ -1,4 +1,4 @@
-@puerto = 8080
+@PORT = 8080
 @host_name = "127.0.0.1"
 @token = 
 
@@ -8,7 +8,7 @@
 
 ### 1. LOGIN - Obtener token para pruebas autenticadas
 # Este endpoint es necesario para obtener un token válido
-POST http://{{host_name}}:{{puerto}}/api/auth/ingresar HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/auth/ingresar HTTP/1.1
 Content-Type: application/json
 
 {
@@ -21,7 +21,7 @@ Content-Type: application/json
 ### ============================================================
 
 ### 2. Crear nuevo usuario (sin autenticación)
-POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/usuarios HTTP/1.1
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ### 3. Intentar crear usuario con email duplicado
-POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/usuarios HTTP/1.1
 Content-Type: application/json
 
 {
@@ -43,7 +43,7 @@ Content-Type: application/json
 }
 
 ### 4. Intentar crear usuario sin nombre
-POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/usuarios HTTP/1.1
 Content-Type: application/json
 
 {
@@ -53,7 +53,7 @@ Content-Type: application/json
 }
 
 ### 5. Intentar crear usuario sin email
-POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/usuarios HTTP/1.1
 Content-Type: application/json
 
 {
@@ -63,7 +63,7 @@ Content-Type: application/json
 }
 
 ### 6. Intentar crear usuario con email inválido
-POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/usuarios HTTP/1.1
 Content-Type: application/json
 
 {
@@ -74,7 +74,7 @@ Content-Type: application/json
 }
 
 ### 7. Intentar crear usuario con contraseña débil (menos de 8 caracteres)
-POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/usuarios HTTP/1.1
 Content-Type: application/json
 
 {
@@ -90,20 +90,20 @@ Content-Type: application/json
 
 ### 8. Obtener todos los usuarios (requiere autenticación)
 # Reemplaza el valor de @token con el token obtenido del login
-GET http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/usuarios HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 9. Obtener usuario por ID específico (requiere autenticación)
 # Reemplaza el ID con un ID válido de la base de datos
-GET http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 10. Intentar obtener usuario con ID inválido
-GET http://{{host_name}}:{{puerto}}/api/usuarios/invalid-id HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/usuarios/invalid-id HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 11. Intentar obtener usuario sin autenticación
-GET http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/usuarios HTTP/1.1
 
 ### ============================================================
 ### ACTUALIZAR USUARIO
@@ -111,7 +111,7 @@ GET http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
 
 ### 12. Actualizar nombre del usuario (requiere autenticación)
 # Reemplaza el ID con un ID válido de la base de datos
-PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -120,7 +120,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 13. Actualizar email del usuario (requiere autenticación)
-PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -129,7 +129,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 14. Actualizar múltiples campos
-PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -139,7 +139,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 15. Intentar actualizar con email que ya existe
-PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -148,7 +148,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 16. Intentar actualizar usuario inexistente
-PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklxx HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklxx HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -157,7 +157,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 17. Intentar actualizar sin autenticación
-PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
 Content-Type: application/json
 
 {
@@ -170,15 +170,15 @@ Content-Type: application/json
 
 ### 18. Eliminar usuario por ID (requiere autenticación)
 # Reemplaza el ID con un ID válido de la base de datos
-DELETE http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+DELETE http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 19. Intentar eliminar usuario inexistente
-DELETE http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklxx HTTP/1.1
+DELETE http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklxx HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 20. Intentar eliminar sin autenticación
-DELETE http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+DELETE http://{{host_name}}:{{PORT}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
 
 ### ============================================================
 ### NOTAS PARA EJECUTAR LAS PRUEBAS:

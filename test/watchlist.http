@@ -1,4 +1,4 @@
-@puerto = 3001
+@PORT = 3001
 @host_name = "127.0.0.1"
 @token = 
 @userId = 
@@ -9,7 +9,7 @@
 ### ============================================================
 
 ### 1. LOGIN - Obtener token para pruebas autenticadas
-POST http://{{host_name}}:{{puerto}}/api/auth/ingresar HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/auth/ingresar HTTP/1.1
 Content-Type: application/json
 
 {
@@ -22,7 +22,7 @@ Content-Type: application/json
 ### ============================================================
 
 ### 2. Crear nuevo item - Serie
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -37,7 +37,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 3. Crear nuevo item - Película
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -52,7 +52,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 4. Crear item con estatus pending (por defecto)
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -64,7 +64,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 5. Crear item con estatus watching
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -77,7 +77,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 6. Intentar crear sin título
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -87,7 +87,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 7. Intentar crear sin tipo
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -97,7 +97,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 8. Intentar crear sin género
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -107,7 +107,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 9. Intentar crear con tipo inválido
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -118,7 +118,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 10. Intentar crear con estatus inválido
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -130,7 +130,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 11. Intentar crear con calificación inválida (mayor a 10)
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -142,7 +142,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 12. Intentar crear sin autenticación
-POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+POST http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 
 {
@@ -156,53 +156,53 @@ Content-Type: application/json
 ### ============================================================
 
 ### 13. Obtener todos los items del usuario autenticado
-GET http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 14. Obtener items con filtro por tipo (serie)
-GET http://{{host_name}}:{{puerto}}/api/watchlist?tipo=serie HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist?tipo=serie HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 15. Obtener items con filtro por tipo (movie)
-GET http://{{host_name}}:{{puerto}}/api/watchlist?tipo=movie HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist?tipo=movie HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 16. Obtener items con filtro por estatus (watched)
-GET http://{{host_name}}:{{puerto}}/api/watchlist?estatus=watched HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist?estatus=watched HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 17. Obtener items con filtro por estatus (watching)
-GET http://{{host_name}}:{{puerto}}/api/watchlist?estatus=watching HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist?estatus=watching HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 18. Obtener items con filtro por estatus (pending)
-GET http://{{host_name}}:{{puerto}}/api/watchlist?estatus=pending HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist?estatus=pending HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 19. Obtener items con filtro por género
-GET http://{{host_name}}:{{puerto}}/api/watchlist?genero=Drama HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist?genero=Drama HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 20. Obtener item por ID específico
-GET http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 21. Intentar obtener item con ID inválido
-GET http://{{host_name}}:{{puerto}}/api/watchlist/invalid-id HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist/invalid-id HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 22. Intentar obtener sin autenticación
-GET http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist HTTP/1.1
 
 ### 23. Intentar obtener item sin autenticación
-GET http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+GET http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 
 ### ============================================================
 ### ACTUALIZAR ITEMS DE WATCHLIST
 ### ============================================================
 
 ### 24. Actualizar título del item
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -211,7 +211,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 25. Actualizar calificación
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -220,7 +220,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 26. Cambiar estatus a watching
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -229,7 +229,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 27. Cambiar estatus a watched
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -238,7 +238,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 28. Cambiar estatus a pending
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -247,7 +247,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 29. Actualizar notas
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -256,7 +256,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 30. Actualizar imagen de portada
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -265,7 +265,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 31. Actualizar múltiples campos
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -277,7 +277,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 32. Intentar actualizar con calificación inválida
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -286,7 +286,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 33. Intentar actualizar con tipo inválido
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -295,7 +295,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 34. Intentar actualizar con estatus inválido
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -304,7 +304,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 35. Intentar actualizar item inexistente
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/65abc123def456789ghijklxx HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/65abc123def456789ghijklxx HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -313,7 +313,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 36. Intentar actualizar sin autenticación
-PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+PUT http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Content-Type: application/json
 
 {
@@ -325,15 +325,15 @@ Content-Type: application/json
 ### ============================================================
 
 ### 37. Eliminar item por ID
-DELETE http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+DELETE http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 38. Intentar eliminar item inexistente
-DELETE http://{{host_name}}:{{puerto}}/api/watchlist/65abc123def456789ghijklxx HTTP/1.1
+DELETE http://{{host_name}}:{{PORT}}/api/watchlist/65abc123def456789ghijklxx HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 39. Intentar eliminar sin autenticación
-DELETE http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+DELETE http://{{host_name}}:{{PORT}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
 
 ### ============================================================
 ### NOTAS PARA EJECUTAR LAS PRUEBAS:
