@@ -5,7 +5,7 @@ class EnvConfig {
     static #instance = null;
 
     // Propiedades privadas
-    #puerto;
+    #PORT;
     #databaseUri;
     #jwtSecret;
     #entorno;
@@ -16,7 +16,7 @@ class EnvConfig {
         }
 
         // Validar y asignar la variable de entorno
-        this.#puerto = process.env.PUERTO || 3000;
+        this.#PORT = process.env.PORT || 3000;
 
 
 
@@ -52,9 +52,9 @@ class EnvConfig {
         return EnvConfig.#instance;
     }
 
-    // Getter para la propiedad `puerto`
-    get puerto() {
-        return this.#puerto;
+    // Getter para la propiedad `PORT`
+    get PORT() {
+        return this.#PORT;
     }
 
 
@@ -62,9 +62,9 @@ class EnvConfig {
         return this.#databaseUri;
     }
 
-    // Setter para la propiedad `puerto` (arroja un error)
-    set puerto(value) {
-        throw new Error('Cannot modify the value of PUERTO. It is a read-only property.');
+    // Setter para la propiedad `PORT` (arroja un error)
+    set PORT(value) {
+        throw new Error('Cannot modify the value of PORT. It is a read-only property.');
     }
 
     set jwtSecret(value) {

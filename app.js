@@ -107,8 +107,8 @@ app.use((err, req, res, next) => {
 /**
  * 5. PUESTA EN MARCHA
  */
-const PUERTO = envConfig.puerto;
+const PORT = envConfig.PORT;
 
-app.listen(PUERTO, () => {
-    console.log(`Servidor corriendo en el puerto http://localhost:${PUERTO}.`);
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en ${PORT}.`);
 });
