@@ -3,6 +3,7 @@ import { actualizar, crear, eliminar, obtenerTodos, obtenerUno } from "../contro
 import { validarToken } from "../middlewares/auth.middleware.js";
 import { validarRol } from "../middlewares/validar.rol.middleware.js";
 import rolesUsuarios from "../constants/roles.js";
+import { esPropietarioWatchlist } from "../middlewares/es.propietario.middleware.js";
 
 const router = Router();
 
@@ -18,7 +19,7 @@ router.get('/',
 router.get('/:id', validarRol([
     rolesUsuarios.ADMINISTRADOR,
     rolesUsuarios.USUARIO
-]), obtenerUno);
+]), esPropietarioWatchlist, obtenerUno);
 
 router.post('/', validarRol([
     rolesUsuarios.ADMINISTRADOR,
@@ -28,11 +29,11 @@ router.post('/', validarRol([
 router.put('/:id', validarRol([
     rolesUsuarios.ADMINISTRADOR,
     rolesUsuarios.USUARIO
-]), actualizar);
+]), esPropietarioWatchlist, actualizar);
 
 router.delete('/:id', validarRol([
     rolesUsuarios.ADMINISTRADOR,
     rolesUsuarios.USUARIO
-]), eliminar);
+]), esPropietarioWatchlist, eliminar);
 
 export { router };
