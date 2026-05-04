@@ -114,8 +114,6 @@ const intentarLogin = async (e) => {
             throw new Error(data.message || 'Error al iniciar sesión');
         }
 
-        const { token } = data.respuesta;
-        localStorage.setItem('token', token);
         window.location.replace('/watchlist');
     } catch (error) {
         mostrarCargando(botonSubmit, false);

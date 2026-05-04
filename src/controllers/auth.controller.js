@@ -2,6 +2,7 @@
 import { request, response } from "express";
 import authService from "../services/auth.service.js";
 import viewLoader from "../utils/view.loader.js";
+import envConfig from "../config/env.loader.js";
 
 
 
@@ -41,8 +42,16 @@ const registro = async (req = request, res = response) => {
 
 const ingresar = async (req = request, res = response) => {
     try {
-        const respuesta = await authService.intentarLogin(req.body);
-        res.status(200).json({ mensaje: 'Operacion exitosa.', respuesta: respuesta });
+        const { user, token } = await authService.intentarLogin(req.body);
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 360000,
+            secure: envConfig.entorno === 'produccion',
+            sameSite: 'strict'
+        });
+
+        res.status(200).json({ mensaje: 'Operacion exitosa.', respuesta: user });
     } catch (error) {
         res.status(error.status || 500).json({ mensaje: 'Ocurrio un error en la solicitud.', error: error.message });
     }

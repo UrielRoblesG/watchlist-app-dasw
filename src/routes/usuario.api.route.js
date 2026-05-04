@@ -67,6 +67,7 @@ router.get('/', validarToken, validarRol([rolesUsuarios.ADMINISTRADOR]), obtener
  */
 router.get('/:id', validarToken,
     validarRol([rolesUsuarios.ADMINISTRADOR, rolesUsuarios.USUARIO]),
+    esPropietarioUsuario,
     obtenerPorId);
 
 /**
@@ -79,6 +80,7 @@ router.put('/:id',
     actualizarUsuarioSchema,
     validarResultado,
     validarToken,
+    esPropietarioUsuario,
     actualizar);
 
 /**

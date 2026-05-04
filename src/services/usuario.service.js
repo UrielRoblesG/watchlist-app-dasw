@@ -58,6 +58,9 @@ class UsuarioService {
      */
     obtenerPorId = async (id) => {
         try {
+
+
+
             const usuario = await usuarioRepository.obtenerPorId(id);
 
             if (!usuario) {
@@ -82,6 +85,7 @@ class UsuarioService {
      */
     actualizar = async (id, datosActualizar) => {
         try {
+            
             // Validar que al menos un campo esté presente
             if (!datosActualizar || Object.keys(datosActualizar).length === 0) {
                 const error = new Error('Debe proporcionar al menos un campo a actualizar');

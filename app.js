@@ -10,6 +10,8 @@ import { logMiddleware } from "./src/middlewares/log.middleware.js";
 
 import envConfig from './src/config/env.loader.js';
 import database from "./src/db/db.js";
+import cookieParser from "cookie-parser";
+import rateLimit from "express-rate-limit";
 
 /**
  * 2. INSTANCIACIÓN Y MIDDLEWARES (Configuración)
@@ -18,6 +20,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
+app.use(cookieParser());
 app.use(cors());
 
 database.conectar();
@@ -35,6 +38,23 @@ app.use(express.static('public'));
 
 // Middleware para logg
 app.use(logMiddleware);
+
+
+const limitadorGeneral = rateLimit({
+    windowMs: 1 * 600 * 1000,
+    max: 100,
+    message: 'Demasiadas solicitudes, intenta mas tarde'
+});
+
+
+const limitadorAutenticacion = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: 'Demasiados intentos de autenticacion, intenta mas tarde'
+});
+
+app.use('/api/auth', limitadorAutenticacion);
+app.use(limitadorGeneral);
 
 /**
  * 3. DEFINICIÓN DE RUTAS

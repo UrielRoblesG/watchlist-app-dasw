@@ -7,28 +7,15 @@ const validarToken = async (req = request, res = response, next) => {
     console.log('Middleware validarToken ejecutándose');
 
     try {
-        const authHeader = req.headers['authorization'];
-        console.log(authHeader);
+        const token = req.cookies.token;
 
         // Validar que el header de autorización existe
-        if (!authHeader) {
+        if (!token) {
             return res.status(401).json({
                 mensaje: 'Acceso denegado. Token no proporcionado.',
-                error: 'Authorization header is required'
+                error: 'No se envio el token en las cookies'
             });
         }
-
-        // Extraer el token del formato "Bearer <token>"
-        const parts = authHeader.split(' ');
-        if (parts.length !== 2 || parts[0] !== 'Bearer') {
-            return res.status(401).json({
-                mensaje: 'Acceso denegado. Formato de token inválido.',
-                error: 'Expected format: Bearer <token>'
-            });
-        }
-
-        const token = parts[1];
-
         // Verificar el token usando el método verificarToken
         const decodedToken = verificarToken(token);
 
