@@ -69,7 +69,15 @@ app.use('/', viewRouter);
  * Es la respuesta que damos cuando alguien entra a la URL base (http://localhost:8080/).
  */
 app.get('/', (req, res) => {
-    res.status(200).json({ mensaje: 'Mi primera ruta con Express.js' });
+    const token = req.cookies.token; // Obtiene la cookie 'token'
+
+    if (token) {
+        // Si existe el token, redirige al dashboard
+        res.redirect('/dashboard');
+    } else {
+        // Si no existe el token, redirige a la página de ingreso
+        res.redirect('/auth/ingresar');
+    }
 });
 
 /**

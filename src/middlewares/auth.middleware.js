@@ -10,11 +10,18 @@ const validarToken = async (req = request, res = response, next) => {
         const token = req.cookies.token;
 
         // Validar que el header de autorización existe
-        if (!token) {
+
+        const url = req.baseUrl;
+
+
+        if (!token && url.includes('/api')) {
             return res.status(401).json({
                 mensaje: 'Acceso denegado. Token no proporcionado.',
                 error: 'No se envio el token en las cookies'
             });
+        } else if (!token) {
+            // Si existe el token, redirige al dashboard
+            res.redirect('/auth/ingresar');
         }
         // Verificar el token usando el método verificarToken
         const decodedToken = verificarToken(token);
