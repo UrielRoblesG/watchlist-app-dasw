@@ -1,52 +1,370 @@
-@baseUrl = http://localhost:8080/api/watchlist
-@token = 1774545626897|test@example.com|user
+@puerto = 3001
+@host_name = "127.0.0.1"
+@token = 
+@userId = 
+@watchlistItemId = 
 
-### Obtener todos los items (sin filtros)
-GET {{baseUrl}}/
-Authorization: Bearer {{token}}
+### ============================================================
+### PRUEBAS DEL MÓDULO DE WATCHLIST
+### ============================================================
 
-### Obtener items filtrados por estado
-GET {{baseUrl}}/?estado=pendiente
-Authorization: Bearer {{token}}
+### 1. LOGIN - Obtener token para pruebas autenticadas
+POST http://{{host_name}}:{{puerto}}/api/auth/ingresar HTTP/1.1
+Content-Type: application/json
 
-### Obtener items filtrados por tipo
-GET {{baseUrl}}/?tipo=pelicula
-Authorization: Bearer {{token}}
+{
+    "email": "admin@test.com",
+    "password": "Admin1234"
+}
 
-### Obtener items filtrados por estado y tipo
-GET {{baseUrl}}/?estado=completado&tipo=serie
-Authorization: Bearer {{token}}
+### ============================================================
+### CREAR ITEMS DE WATCHLIST
+### ============================================================
 
-### Obtener un item específico
-GET {{baseUrl}}/123456
-Authorization: Bearer {{token}}
-
-### Crear un nuevo item
-POST {{baseUrl}}/
+### 2. Crear nuevo item - Serie
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "titulo": "Matrix",
-    "tipo": "pelicula",
-    "genero": "Ciencia ficcion",
-    "rating": 9,
-    "estado": "pendiente",
-    "coverUrl": "https://example.com/matrix.jpg",
-    "notas": "Clasico imperdible"
+    "titulo": "Breaking Bad",
+    "tipo": "serie",
+    "genero": "Drama",
+    "calificacion": 9,
+    "estatus": "watched",
+    "imgPortada": "https://example.com/breaking-bad.jpg",
+    "notas": "Una de las mejores series de todos los tiempos"
 }
 
-### Actualizar un item
-PUT {{baseUrl}}/1774546194410
+### 3. Crear nuevo item - Película
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "estado": "visto",
-    "rating": 10,
-    "notas": "Excelente pelicula"
+    "titulo": "Inception",
+    "tipo": "movie",
+    "genero": "Ciencia Ficción",
+    "calificacion": 8,
+    "estatus": "watched",
+    "imgPortada": "https://example.com/inception.jpg",
+    "notas": "Película de Christopher Nolan muy creativa"
 }
 
-### Eliminar un item
-DELETE {{baseUrl}}/123456
+### 4. Crear item con estatus pending (por defecto)
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
 Authorization: Bearer {{token}}
+
+{
+    "titulo": "The Last of Us",
+    "tipo": "serie",
+    "genero": "Drama",
+    "genero": "Ciencia Ficción"
+}
+
+### 5. Crear item con estatus watching
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "The Office",
+    "tipo": "serie",
+    "genero": "Comedia",
+    "estatus": "watching",
+    "notas": "Viendo actualmente"
+}
+
+### 6. Intentar crear sin título
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "tipo": "serie",
+    "genero": "Drama"
+}
+
+### 7. Intentar crear sin tipo
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Aquí viene el sol",
+    "genero": "Drama"
+}
+
+### 8. Intentar crear sin género
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Oppenheimer",
+    "tipo": "movie"
+}
+
+### 9. Intentar crear con tipo inválido
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Interstellar",
+    "tipo": "documental",
+    "genero": "Ciencia Ficción"
+}
+
+### 10. Intentar crear con estatus inválido
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Dune",
+    "tipo": "movie",
+    "genero": "Ciencia Ficción",
+    "estatus": "completado"
+}
+
+### 11. Intentar crear con calificación inválida (mayor a 10)
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Shutter Island",
+    "tipo": "movie",
+    "genero": "Thriller",
+    "calificacion": 15
+}
+
+### 12. Intentar crear sin autenticación
+POST http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Content-Type: application/json
+
+{
+    "titulo": "Parasite",
+    "tipo": "movie",
+    "genero": "Drama"
+}
+
+### ============================================================
+### OBTENER ITEMS DE WATCHLIST
+### ============================================================
+
+### 13. Obtener todos los items del usuario autenticado
+GET http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 14. Obtener items con filtro por tipo (serie)
+GET http://{{host_name}}:{{puerto}}/api/watchlist?tipo=serie HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 15. Obtener items con filtro por tipo (movie)
+GET http://{{host_name}}:{{puerto}}/api/watchlist?tipo=movie HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 16. Obtener items con filtro por estatus (watched)
+GET http://{{host_name}}:{{puerto}}/api/watchlist?estatus=watched HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 17. Obtener items con filtro por estatus (watching)
+GET http://{{host_name}}:{{puerto}}/api/watchlist?estatus=watching HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 18. Obtener items con filtro por estatus (pending)
+GET http://{{host_name}}:{{puerto}}/api/watchlist?estatus=pending HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 19. Obtener items con filtro por género
+GET http://{{host_name}}:{{puerto}}/api/watchlist?genero=Drama HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 20. Obtener item por ID específico
+GET http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 21. Intentar obtener item con ID inválido
+GET http://{{host_name}}:{{puerto}}/api/watchlist/invalid-id HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 22. Intentar obtener sin autenticación
+GET http://{{host_name}}:{{puerto}}/api/watchlist HTTP/1.1
+
+### 23. Intentar obtener item sin autenticación
+GET http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+
+### ============================================================
+### ACTUALIZAR ITEMS DE WATCHLIST
+### ============================================================
+
+### 24. Actualizar título del item
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Breaking Bad - Updated"
+}
+
+### 25. Actualizar calificación
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "calificacion": 10
+}
+
+### 26. Cambiar estatus a watching
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "estatus": "watching"
+}
+
+### 27. Cambiar estatus a watched
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "estatus": "watched"
+}
+
+### 28. Cambiar estatus a pending
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "estatus": "pending"
+}
+
+### 29. Actualizar notas
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "notas": "Excelente serie, recomendada al 100%"
+}
+
+### 30. Actualizar imagen de portada
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "imgPortada": "https://example.com/new-poster.jpg"
+}
+
+### 31. Actualizar múltiples campos
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Breaking Bad (Actualizado)",
+    "calificacion": 9.5,
+    "estatus": "watched",
+    "notas": "Obra maestra del cine televisivo"
+}
+
+### 32. Intentar actualizar con calificación inválida
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "calificacion": 15
+}
+
+### 33. Intentar actualizar con tipo inválido
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "tipo": "anime"
+}
+
+### 34. Intentar actualizar con estatus inválido
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "estatus": "abandonado"
+}
+
+### 35. Intentar actualizar item inexistente
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/65abc123def456789ghijklxx HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "titulo": "Item Fantasma"
+}
+
+### 36. Intentar actualizar sin autenticación
+PUT http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "titulo": "Sin Autenticación"
+}
+
+### ============================================================
+### ELIMINAR ITEMS DE WATCHLIST
+### ============================================================
+
+### 37. Eliminar item por ID
+DELETE http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 38. Intentar eliminar item inexistente
+DELETE http://{{host_name}}:{{puerto}}/api/watchlist/65abc123def456789ghijklxx HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 39. Intentar eliminar sin autenticación
+DELETE http://{{host_name}}:{{puerto}}/api/watchlist/{{watchlistItemId}} HTTP/1.1
+
+### ============================================================
+### NOTAS PARA EJECUTAR LAS PRUEBAS:
+### ============================================================
+###
+### 1. Primero ejecuta la prueba de LOGIN (prueba #1) para obtener el token
+### 2. Copia el token de la respuesta y reemplaza el valor de @token al inicio del archivo
+### 3. Copia el userId del campo autenticado si es necesario
+### 4. Ejecuta las pruebas de CREAR para generar items, y copia los IDs obtenidos
+### 5. Reemplaza @watchlistItemId con los IDs generados en las pruebas de CREATE
+### 6. Las pruebas están organizadas por operación (CREATE, READ, UPDATE, DELETE)
+### 7. Algunas pruebas fallarán intencionalmente para probar manejo de errores
+###
+### CAMPOS PERMITIDOS EN WATCHLISTITEM:
+### - userId: ObjectId (requerido, automático del usuario autenticado)
+### - titulo: string (requerido, 1-200 caracteres)
+### - tipo: 'serie' | 'movie' (requerido, enum)
+### - genero: string (requerido)
+### - calificacion: number (default: 0, rango: 0-10)
+### - estatus: 'pending' | 'watching' | 'watched' (default: 'pending', enum)
+### - imgPortada: string (opcional)
+### - notas: string (opcional)
+### - createdAt: Date (automático)
+### - updatedAt: Date (automático)
+###
+### Para usar este archivo con REST Client (VS Code):
+### - Instala la extensión "REST Client" by Huachao Mao
+### - Haz click en "Send Request" arriba de cada petición
+### - O usa el atajo de teclado Ctrl+Alt+R
+###
+### Para usar con Insomnia o Postman:
+### - Reemplaza {{variable}} con tus valores reales
+### - Las variables se pueden definir en un environment
+### ============================================================

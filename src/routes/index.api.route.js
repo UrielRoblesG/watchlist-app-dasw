@@ -14,6 +14,7 @@
 import { Router } from 'express';
 import { router as authRouter } from './auth.api.route.js';
 import { router as watchlistRouter } from "./watchlist.api.route.js";
+import { router as usuarioRouter } from "./usuario.api.route.js";
 // Creamos el enrutador maestro de la API
 const router = Router();
 
@@ -26,6 +27,7 @@ const router = Router();
 // Ejemplo: POST http://localhost:8080/api/auth/registro
 router.use('/auth', authRouter);
 router.use('/watchlist', watchlistRouter);
+router.use('/usuarios', usuarioRouter);
 
 /**
  * 3. EXPORTACIÓN

@@ -1,6 +1,8 @@
+import { Usuario } from "../models/User.model.js";
 import usuarioRepository from "../repositories/usuario.repository.js";
+import { compararPassword } from "../utils/encrypt.js";
+import { generarToken } from "../utils/jwt.js";
 
-import { crearUsuario } from '../models/User.model.js'
 
 class AuthService {
 
@@ -8,7 +10,7 @@ class AuthService {
      * Coordina el proceso de registro de un nuevo usuario.
      * Aplica reglas de negocio: validación de duplicados, creación y limpieza de datos.
      * * @param {Object} datos - Objeto desestructurado con nombre, email y password.
-     * @returns {Promise<Object>} - El usuario creado y sanitizado (sin datos sensibles).
+     * @returns {Promise<Object>} - El usuario creado y su token de autenticación.
      * @throws {Error} - Lanza un error 409 si el email ya existe.
      */
     registrarUsuario = async ({ nombre, email, password }) => {
@@ -25,16 +27,26 @@ class AuthService {
 
         // 'crearUsuario' se encarga de estructurar el objeto (poner ID, fecha, etc.)
         // Nota: Aquí es donde normalmente se encriptaría la contraseña antes de guardar.
-        const nuevoUsuario = crearUsuario({ nombre, email, password });
+        try {
+            const nuevoUsuario = {
+                nombre: nombre,
+                email: email,
+                password: password
+            };
+            // Enviamos el objeto estructurado al repositorio para que lo escriba en el JSON.
+            const guardado = await usuarioRepository.crear(nuevoUsuario);
 
-        // Enviamos el objeto estructurado al repositorio para que lo escriba en el JSON.
-        const guardado = await usuarioRepository.guardar(nuevoUsuario);
+            // Generar token automáticamente después del registro
+            const token = this._generarToken(guardado);
 
-        /**
-         * Nunca debemos devolver la contraseña al cliente, ni siquiera encriptada.
-         * El método '_sanitizar' se encarga de borrar los campos sensibles.
-         */
-        return this._sanitizar(guardado);
+            return {
+                user: this._sanitizar(guardado),
+                token
+            };
+        } catch (error) {
+            console.error(error);
+            throw new Error('Error guardando el usuario. Error: ', error.message);
+        }
     }
 
     /**
@@ -59,7 +71,8 @@ class AuthService {
 
         // NOTA: En producción, aquí usaríamos 'bcrypt.compare' 
         // para comparar el hash guardado con la contraseña recibida.
-        const coincide = existe.password === password;
+
+        const coincide = await compararPassword(existe.password, password);
 
         if (!coincide) {
             const err = new Error('Credenciales incorrectas.');
@@ -77,27 +90,31 @@ class AuthService {
         };
     }
 
-    _generarToken = ({ id, email, rol }) => `${id}|${email}|${rol}`;
+    _generarToken = ({ _id, nombre, code, rol }) => {
+
+        const payload = {
+            id: _id,
+            nombre,
+            codigoInterno: code,
+            rol: rol.nombre
+        };
+
+        return generarToken(payload);
+    }
 
     /**
-    * Limpia el objeto de usuario eliminando información sensible antes de enviarlo al cliente.
-    * Utiliza desestructuración y el operador 'rest' para una manipulación segura.
-    * * @param {Object} usuario - El objeto completo del usuario extraído de la base de datos.
-    * @returns {Object} - Un nuevo objeto que contiene todas las propiedades excepto la contraseña.
+    * Limpia el objeto de usuario devolviendo solo información básica.
+    * Retorna únicamente: id, nombre, email, rol.nombre
+    * @param {Object} usuario - El objeto completo del usuario extraído de la base de datos.
+    * @returns {Object} - Objeto con información básica del usuario (id, nombre, email, rol.nombre).
     */
     _sanitizar = (usuario) => {
-        /**
-         * - Extraemos 'password' en una variable independiente.
-         * - El resto de las propiedades (id, nombre, email, etc.) se agrupan en 'resto'.
-         */
-        const { password, ...resto } = usuario;
-
-        /**
-         * Devolvemos únicamente el objeto 'resto'. 
-         * De esta forma, la contraseña queda "atrapada" en el ámbito local de esta función 
-         * y nunca viaja por la red.
-         */
-        return resto;
+        return {
+            id: usuario._id,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            rol: usuario.rol?.nombre
+        };
     }
 }
 

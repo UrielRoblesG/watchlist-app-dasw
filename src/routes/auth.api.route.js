@@ -8,6 +8,10 @@ import { request, response, Router } from 'express';
 
 import { ingresar, registro } from "../controllers/auth.controller.js";
 
+import { loginSchema } from "../validators/login.schema.js";
+import { validarResultado } from '../middlewares/validate.result.middleware.js';
+import { registroSchema } from '../validators/registro.schema.js';
+
 // Inicializamos el enrutador
 const router = Router();
 
@@ -18,13 +22,13 @@ const router = Router();
  * * @param {request} req - Contiene los datos que envía el usuario (en req.body).
  * @param {response} res - Objeto para enviar la respuesta al cliente.
  */
-router.post('/registro', registro);
+router.post('/registro', registroSchema, validarResultado, registro);
 
 /**
  * 3. RUTA DE INGRESO / LOGIN (POST)
  * También usamos POST para proteger las credenciales en el cuerpo de la petición.
  */
-router.post('/ingresar', ingresar);
+router.post('/ingresar', loginSchema, validarResultado, ingresar);
 
 /**
  * 4. EXPORTACIÓN

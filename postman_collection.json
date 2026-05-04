@@ -1,0 +1,1220 @@
+{
+  "info": {
+    "name": "Watchlist App API",
+    "description": "Colección de pruebas para la API Watchlist - Incluye autenticación, watchlist, y gestión de usuarios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Registro de usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Uriel\",\n    \"email\": \"test2@test.com\",\n    \"password\": \"Password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/registro",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "registro"]
+            }
+          }
+        },
+        {
+          "name": "Login de usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@test.com\",\n    \"password\": \"Admin1234\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/ingresar",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "ingresar"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Watchlist - Crear Items",
+      "item": [
+        {
+          "name": "1. LOGIN - Obtener token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@test.com\",\n    \"password\": \"Admin1234\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/ingresar",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "ingresar"]
+            }
+          }
+        },
+        {
+          "name": "2. Crear item - Serie",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Breaking Bad\",\n    \"tipo\": \"serie\",\n    \"genero\": \"Drama\",\n    \"calificacion\": 9,\n    \"estatus\": \"watched\",\n    \"imgPortada\": \"https://example.com/breaking-bad.jpg\",\n    \"notas\": \"Una de las mejores series de todos los tiempos\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "3. Crear item - Película",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Inception\",\n    \"tipo\": \"movie\",\n    \"genero\": \"Ciencia Ficción\",\n    \"calificacion\": 8,\n    \"estatus\": \"watched\",\n    \"imgPortada\": \"https://example.com/inception.jpg\",\n    \"notas\": \"Película de Christopher Nolan muy creativa\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "4. Crear item con estatus pending (default)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"The Last of Us\",\n    \"tipo\": \"serie\",\n    \"genero\": \"Drama\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "5. Crear item con estatus watching",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"The Office\",\n    \"tipo\": \"serie\",\n    \"genero\": \"Comedia\",\n    \"estatus\": \"watching\",\n    \"notas\": \"Viendo actualmente\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "6. ERROR - Crear sin título",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tipo\": \"serie\",\n    \"genero\": \"Drama\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "7. ERROR - Crear sin tipo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Aquí viene el sol\",\n    \"genero\": \"Drama\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "8. ERROR - Crear sin género",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Oppenheimer\",\n    \"tipo\": \"movie\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "9. ERROR - Tipo inválido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Interstellar\",\n    \"tipo\": \"documental\",\n    \"genero\": \"Ciencia Ficción\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "10. ERROR - Estatus inválido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Dune\",\n    \"tipo\": \"movie\",\n    \"genero\": \"Ciencia Ficción\",\n    \"estatus\": \"completado\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "11. ERROR - Calificación inválida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Shutter Island\",\n    \"tipo\": \"movie\",\n    \"genero\": \"Thriller\",\n    \"calificacion\": 15\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "12. ERROR - Sin autenticación",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Parasite\",\n    \"tipo\": \"movie\",\n    \"genero\": \"Drama\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Watchlist - Obtener Items",
+      "item": [
+        {
+          "name": "13. Obtener todos los items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "14. Obtener items - Filtro tipo serie",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist?tipo=serie",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "serie"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "15. Obtener items - Filtro tipo movie",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist?tipo=movie",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "movie"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "16. Obtener items - Filtro estatus watched",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist?estatus=watched",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"],
+              "query": [
+                {
+                  "key": "estatus",
+                  "value": "watched"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "17. Obtener items - Filtro estatus watching",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist?estatus=watching",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"],
+              "query": [
+                {
+                  "key": "estatus",
+                  "value": "watching"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "18. Obtener items - Filtro estatus pending",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist?estatus=pending",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"],
+              "query": [
+                {
+                  "key": "estatus",
+                  "value": "pending"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "19. Obtener items - Filtro género",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist?genero=Drama",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"],
+              "query": [
+                {
+                  "key": "genero",
+                  "value": "Drama"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "20. Obtener item por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "21. ERROR - Item con ID inválido",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/invalid-id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "invalid-id"]
+            }
+          }
+        },
+        {
+          "name": "22. ERROR - Obtener sin autenticación",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist"]
+            }
+          }
+        },
+        {
+          "name": "23. ERROR - Item sin autenticación",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Watchlist - Actualizar Items",
+      "item": [
+        {
+          "name": "24. Actualizar título",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Breaking Bad - Updated\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "25. Actualizar calificación",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"calificacion\": 10\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "26. Cambiar estatus a watching",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"estatus\": \"watching\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "27. Cambiar estatus a watched",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"estatus\": \"watched\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "28. Cambiar estatus a pending",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"estatus\": \"pending\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "29. Actualizar notas",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"notas\": \"Excelente serie, recomendada al 100%\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "30. Actualizar imagen de portada",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"imgPortada\": \"https://example.com/new-poster.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "31. Actualizar múltiples campos",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Breaking Bad (Actualizado)\",\n    \"calificacion\": 9.5,\n    \"estatus\": \"watched\",\n    \"notas\": \"Obra maestra del cine televisivo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "32. ERROR - Calificación inválida",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"calificacion\": 15\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "33. ERROR - Tipo inválido",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tipo\": \"anime\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "34. ERROR - Estatus inválido",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"estatus\": \"abandonado\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "35. ERROR - Item inexistente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Item Fantasma\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/65abc123def456789ghijklxx",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "65abc123def456789ghijklxx"]
+            }
+          }
+        },
+        {
+          "name": "36. ERROR - Sin autenticación",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Sin Autenticación\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Watchlist - Eliminar Items",
+      "item": [
+        {
+          "name": "37. Eliminar item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        },
+        {
+          "name": "38. ERROR - Item inexistente",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/65abc123def456789ghijklxx",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "65abc123def456789ghijklxx"]
+            }
+          }
+        },
+        {
+          "name": "39. ERROR - Sin autenticación",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/watchlist/{{watchlistItemId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "watchlist", "{{watchlistItemId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "1. LOGIN - Obtener token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@test.com\",\n    \"password\": \"Admin1234\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/ingresar",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "ingresar"]
+            }
+          }
+        },
+        {
+          "name": "2. Crear nuevo usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Juan Pérez\",\n    \"email\": \"juan.perez@test.com\",\n    \"password\": \"Juan1234\",\n    \"rol\": \"65abc123def456789ghijklmn\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "3. ERROR - Email duplicado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Juan Pérez Duplicado\",\n    \"email\": \"juan.perez@test.com\",\n    \"password\": \"Juan1234\",\n    \"rol\": \"65abc123def456789ghijklmn\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "4. ERROR - Sin nombre",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"carlos@test.com\",\n    \"password\": \"Carlos1234\",\n    \"rol\": \"65abc123def456789ghijklmn\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "5. ERROR - Sin email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Carlos López\",\n    \"password\": \"Carlos1234\",\n    \"rol\": \"65abc123def456789ghijklmn\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "6. ERROR - Email inválido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"María García\",\n    \"email\": \"maria-email-invalido\",\n    \"password\": \"Maria1234\",\n    \"rol\": \"65abc123def456789ghijklmn\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "7. ERROR - Contraseña débil",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Roberto Sánchez\",\n    \"email\": \"roberto@test.com\",\n    \"password\": \"Rob123\",\n    \"rol\": \"65abc123def456789ghijklmn\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "8. Obtener todos los usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "9. Obtener usuario por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/usuarios/65abc123def456789ghijklmn",
+              "host": ["{{base_url}}"],
+              "path": ["api", "usuarios", "65abc123def456789ghijklmn"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "watchlistItemId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

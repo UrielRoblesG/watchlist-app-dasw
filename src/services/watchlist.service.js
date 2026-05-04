@@ -1,5 +1,3 @@
-import { crearWatchlistItem } from "../models/WatchlistItem.model.js";
-
 import watchlistRepository from "../repositories/watchlist.repository.js";
 
 /**
@@ -8,14 +6,14 @@ import watchlistRepository from "../repositories/watchlist.repository.js";
  */
 class WatchlistService {
     /**
-     * Obtiene todos los ítems del watchlist de un usuario, opcionalmente filtrados.
+     * Obtiene todos los ítems del watchlist de un usuario con paginación y filtros.
      * @async
      * @param {string} [userId=''] - ID del usuario.
-     * @param {Object} filtros - Objeto con criterios de filtrado.
-     * @returns {Promise<Array>} Promesa que resuelve con los ítems filtrados.
+     * @param {Object} opciones - Opciones de filtrado y paginación.
+     * @returns {Promise<Object>} Objeto con items paginados y metadatos.
      */
-    obtenerTodos = async (userId = '', filtros) => {
-        return await watchlistRepository.obtenerTodosPorUsuario(userId, filtros);
+    obtenerTodos = async (userId = '', opciones = {}) => {
+        return await watchlistRepository.obtenerTodosPorUsuario(userId, opciones);
     };
 
     /**
@@ -34,22 +32,38 @@ class WatchlistService {
             error.status = 404;
             throw error;
         }
-        return item;
+        const { _id,
+            titulo,
+            tipo,
+            genero,
+            rating,
+            estado,
+            coverUrl,
+            notas, 
+            createdAt, 
+            updatedAt, 
+             } = item;
+        return {
+            id: _id,
+            titulo,
+            tipo,
+            genero,
+            rating,
+            estado,
+            coverUrl,
+            notas
+        };
     };
 
     /**
      * Crea un nuevo ítem en el watchlist del usuario.
      * @async
-     * @param {number} userId - ID del usuario.
+     * @param {string} userId - ID del usuario.
      * @param {Object} data - Datos del nuevo ítem.
      * @returns {Promise<Object>} Promesa que resuelve con el ítem creado.
      */
     crear = async (userId, data) => {
-
-        const newItem = crearWatchlistItem({ userId, ...data });
-        console.log(typeof newItem.id);
-
-        return watchlistRepository.guardar(newItem);
+        return await watchlistRepository.guardar({ userId, ...data });
     };
 
     /**

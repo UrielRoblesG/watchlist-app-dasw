@@ -5,9 +5,9 @@ POST {{baseUrl}}/registro
 Content-Type: application/json
 
 {
-    "nombre": "Usuario de prueba",
-    "email": "test@example.com",
-    "password": "password123"
+    "nombre": "Uriel",
+    "email": "test2@test.com",
+    "password": "Password123"
 }
 
 ### Login de usuario

@@ -1,4 +1,5 @@
 import watchlistService from "../services/watchlist.service.js";
+import viewLoader from "../utils/view.loader.js";
 
 
 /**
@@ -12,11 +13,23 @@ import watchlistService from "../services/watchlist.service.js";
 const obtenerTodos = async (req = request, res = response) => {
     try {
         const { userId } = req.user;
+        const { page = 1, limit = 10, estatus, tipo, genero } = req.query;
+        const opciones = {
+            page: Math.max(1, parseInt(page)),
+            limit: Math.max(1, parseInt(limit)),
+            estatus,
+            tipo,
+            genero
+        };
 
-        const filtros = req.query;
+        console.log(opciones);
 
-        const items = await watchlistService.obtenerTodos(userId, filtros);
-        res.status(200).json({ count: items.length, data: items });
+        const resultado = await watchlistService.obtenerTodos(userId, opciones);
+
+        res.status(200).json({
+            data: resultado.items,
+            pagination: resultado.pagination
+        });
     } catch (error) {
         res.status(error.status || 500).json({
             mensaje: 'Ocurrio un error en la solicitud',
@@ -35,7 +48,7 @@ const obtenerTodos = async (req = request, res = response) => {
  */
 const obtenerUno = async (req = request, res = response) => {
     try {
-        const userId = req.headers['x-token'];
+        const { userId } = req.user;
         const { id } = req.params;
         const item = await watchlistService.obtenerUno({ id, userId });
         res.status(200).json({ data: item });
@@ -115,4 +128,8 @@ const eliminar = async (req = request, res = response) => {
     }
 };
 
-export { obtenerTodos, obtenerUno, crear, actualizar, eliminar };
+const mostrarHome = async (req = request, res = response) => {
+    res.render('dashboard');
+};
+
+export { obtenerTodos, obtenerUno, crear, actualizar, eliminar, mostrarHome };

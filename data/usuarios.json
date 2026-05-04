@@ -1,8 +1,8 @@
 [
   {
     "id": 1774367204499,
-    "email": "ivan2@test.com",
-    "password": "ivan1234",
+    "email": "admin@test.com",
+    "password": "Admin1234",
     "rol": "user",
     "createdAt": "2026-03-24T15:46:44.499Z",
     "updateAt": "2026-03-24T15:46:44.500Z"
@@ -15,5 +15,14 @@
     "rol": "user",
     "createdAt": "2026-03-26T17:20:26.897Z",
     "updateAt": "2026-03-26T17:20:26.897Z"
+  },
+  {
+    "id": 1775577264012,
+    "nombre": "Uriel",
+    "email": "test2@test.com",
+    "password": "Password123",
+    "rol": "user",
+    "createdAt": "2026-04-07T15:54:24.012Z",
+    "updateAt": "2026-04-07T15:54:24.012Z"
   }
 ]

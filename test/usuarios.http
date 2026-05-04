@@ -1,0 +1,201 @@
+@puerto = 8080
+@host_name = "127.0.0.1"
+@token = 
+
+### ============================================================
+### PRUEBAS DEL MÓDULO DE USUARIOS
+### ============================================================
+
+### 1. LOGIN - Obtener token para pruebas autenticadas
+# Este endpoint es necesario para obtener un token válido
+POST http://{{host_name}}:{{puerto}}/api/auth/ingresar HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "admin@test.com",
+    "password": "Admin1234"
+}
+
+### ============================================================
+### CREAR USUARIO
+### ============================================================
+
+### 2. Crear nuevo usuario (sin autenticación)
+POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Juan Pérez",
+    "email": "juan.perez@test.com",
+    "password": "Juan1234",
+    "rol": "65abc123def456789ghijklmn"
+}
+
+### 3. Intentar crear usuario con email duplicado
+POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Juan Pérez Duplicado",
+    "email": "juan.perez@test.com",
+    "password": "Juan1234",
+    "rol": "65abc123def456789ghijklmn"
+}
+
+### 4. Intentar crear usuario sin nombre
+POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "carlos@test.com",
+    "password": "Carlos1234",
+    "rol": "65abc123def456789ghijklmn"
+}
+
+### 5. Intentar crear usuario sin email
+POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Carlos López",
+    "password": "Carlos1234",
+    "rol": "65abc123def456789ghijklmn"
+}
+
+### 6. Intentar crear usuario con email inválido
+POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "María García",
+    "email": "maria-email-invalido",
+    "password": "Maria1234",
+    "rol": "65abc123def456789ghijklmn"
+}
+
+### 7. Intentar crear usuario con contraseña débil (menos de 8 caracteres)
+POST http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Roberto Sánchez",
+    "email": "roberto@test.com",
+    "password": "Rob123",
+    "rol": "65abc123def456789ghijklmn"
+}
+
+### ============================================================
+### OBTENER USUARIOS
+### ============================================================
+
+### 8. Obtener todos los usuarios (requiere autenticación)
+# Reemplaza el valor de @token con el token obtenido del login
+GET http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 9. Obtener usuario por ID específico (requiere autenticación)
+# Reemplaza el ID con un ID válido de la base de datos
+GET http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 10. Intentar obtener usuario con ID inválido
+GET http://{{host_name}}:{{puerto}}/api/usuarios/invalid-id HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 11. Intentar obtener usuario sin autenticación
+GET http://{{host_name}}:{{puerto}}/api/usuarios HTTP/1.1
+
+### ============================================================
+### ACTUALIZAR USUARIO
+### ============================================================
+
+### 12. Actualizar nombre del usuario (requiere autenticación)
+# Reemplaza el ID con un ID válido de la base de datos
+PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Juan Pérez Actualizado"
+}
+
+### 13. Actualizar email del usuario (requiere autenticación)
+PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "email": "juan.nuevo@test.com"
+}
+
+### 14. Actualizar múltiples campos
+PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Juan Carlos Pérez",
+    "email": "juan.carlos@test.com"
+}
+
+### 15. Intentar actualizar con email que ya existe
+PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "email": "otro.usuario.existente@test.com"
+}
+
+### 16. Intentar actualizar usuario inexistente
+PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklxx HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Usuario Fantasma"
+}
+
+### 17. Intentar actualizar sin autenticación
+PUT http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Sin Autenticación"
+}
+
+### ============================================================
+### ELIMINAR USUARIO
+### ============================================================
+
+### 18. Eliminar usuario por ID (requiere autenticación)
+# Reemplaza el ID con un ID válido de la base de datos
+DELETE http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 19. Intentar eliminar usuario inexistente
+DELETE http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklxx HTTP/1.1
+Authorization: Bearer {{token}}
+
+### 20. Intentar eliminar sin autenticación
+DELETE http://{{host_name}}:{{puerto}}/api/usuarios/65abc123def456789ghijklmn HTTP/1.1
+
+### ============================================================
+### NOTAS PARA EJECUTAR LAS PRUEBAS:
+### ============================================================
+### 
+### 1. Primero ejecuta la prueba de LOGIN (prueba #1) para obtener el token
+### 2. Copia el token de la respuesta y reemplaza el valor de @token al inicio del archivo
+### 3. Obtén IDs reales de usuarios creados y reemplázalos en los endpoints que los requieren
+### 4. Las pruebas están organizadas por operación (CREATE, READ, UPDATE, DELETE)
+### 5. Algunas pruebas pueden fallar intencionalmente para probar manejo de errores
+### 
+### Para usar este archivo con REST Client (VS Code):
+### - Instala la extensión "REST Client" by Huachao Mao
+### - Haz click en "Send Request" arriba de cada petición
+### - O usa el atajo de teclado Ctrl+Alt+R
+###
+### Para usar con Insomnia o Postman:
+### - Reemplaza {{variable}} con tus valores reales
+### - Las variables se pueden definir en un environment
+### ============================================================
