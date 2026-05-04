@@ -4,16 +4,13 @@ let allItems = [];
 let currentPage = 1;
 let paginationData = {};
 
-const getToken = () => localStorage.getItem('token') ?? (() => { throw new Error('No se logró obtener el token') })();
-
 const fetchAPI = async (endpoint, options = {}) => {
     const headers = {
-        'Authorization': `Bearer ${getToken()}`,
         'Content-Type': 'application/json',
         ...options.headers
     };
 
-    const response = await fetch(endpoint, { ...options, headers });
+    const response = await fetch(endpoint, { ...options, headers, credentials: 'include' });
     if (!response.ok) throw new Error(`API error: ${response.statusText}`);
     return response.json();
 };
